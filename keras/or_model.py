@@ -12,21 +12,6 @@ else:
 from lib.model.nn_blocks import Conv2DOutput, Conv2DBlock, UpscaleBlock
 import sys
 
-from threading import Lock
-from time import sleep
-from typing import cast, Callable, Dict, List, Optional, Tuple, TYPE_CHECKING
-
-# import cv2
-import numpy as np
-# from matplotlib import pyplot as plt, rcParams
-
-from lib.image import read_image_meta
-from lib.keypress import KBHit
-from lib.multithreading import MultiThread
-from lib.utils import (deprecation_warning, get_dpi, get_folder, get_image_paths,
-                       FaceswapError, _image_extensions)
-# from plugins.plugin_loader import PluginLoader
-from importlib import import_module
 
 if sys.version_info < (3, 8):
     from typing_extensions import Literal
@@ -72,7 +57,8 @@ class Model():
 
 
     def __init__(self, *args, **kwargs):
-        self.name = "modeliuks"
+        # self.name = "modeliuks"
+        self.name = "lightweight"
         super().__init__(*args, **kwargs)
         self.input_shape = (64, 64, 3)
         self.low_mem = True # self.config.get("lowmem", False)

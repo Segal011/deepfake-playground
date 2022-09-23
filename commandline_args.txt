@@ -1,0 +1,8 @@
+{
+  "global_arguments": [
+    {
+      "opts": [
+        "-C",
+        "--configfile"
+      ],
+      "action": 

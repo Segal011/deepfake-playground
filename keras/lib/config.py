@@ -363,7 +363,7 @@ class FaceswapConfig():
 
     def load_config(self):
         """ Load values from config """
-        logger.verbose("Loading config: '%s'", self.configfile)
+        logger.info("Loading config: '%s'", self.configfile)
         self.config.read(self.configfile)
 
     def save_config(self):
