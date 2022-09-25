@@ -34,8 +34,13 @@ class Train():
     def train(self) -> None:
         """ The training process to be run inside a thread. """
         try:
+            # sleep(0.5)  # Let preview instructions flush out to #logger
             logger.debug("Commencing Training")
+            # #logger.info("Loading data, this may take a while...")
+            # model = self._load_model()
             model = self._load_model(r"C:\Users\37060\Desktop\smth\model")
+            # model = load_model(r"C:\Users\37060\Desktop\smth\model\lightweight.h5")
+            # model = load_model(r"C:\Users\37060\Documents\GitHub\deepfake-playground\keras\train.hdf5")
             trainer = self._load_trainer(model)            
             self._run_training_cycle(model, trainer)
         except KeyboardInterrupt:
