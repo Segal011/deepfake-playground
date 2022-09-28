@@ -318,9 +318,9 @@ def set_system_verbosity(log_level: str):
     """
 
     logger = logging.getLogger(__name__)  # pylint:disable=invalid-name
-    from lib.logger import get_loglevel  # pylint:disable=import-outside-toplevel
-    numeric_level = get_loglevel(log_level)
-    log_level = "3" if numeric_level > 15 else "0"
+    # from lib.logger import get_loglevel  # pylint:disable=import-outside-toplevel
+    # numeric_level = get_loglevel(log_level)
+    # log_level = "3" if numeric_level > 15 else "0"
     logger.debug("System Verbosity level: %s", log_level)
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = log_level
     if log_level != '0':
@@ -370,21 +370,21 @@ def camel_case_split(identifier: str) -> List[str]:
     return [m.group(0) for m in matches]
 
 
-def safe_shutdown(got_error: bool = False) -> None:
-    """ Close all tracked queues and threads in event of crash or on shut down.
-
-    Parameters
-    ----------
-    got_error: bool, optional
-        ``True`` if this function is being called as the result of raised error, otherwise
-        ``False``. Default: ``False``
-    """
-    logger = logging.getLogger(__name__)  # pylint:disable=invalid-name
-    logger.debug("Safely shutting down")
-    from lib.queue_manager import queue_manager  # pylint:disable=import-outside-toplevel
-    queue_manager.terminate_queues()
-    logger.debug("Cleanup complete. Shutting down queue manager and exiting")
-    sys.exit(1 if got_error else 0)
+# def safe_shutdown(got_error: bool = False) -> None:
+#     """ Close all tracked queues and threads in event of crash or on shut down.
+#
+#     Parameters
+#     ----------
+#     got_error: bool, optional
+#         ``True`` if this function is being called as the result of raised error, otherwise
+#         ``False``. Default: ``False``
+#     """
+#     logger = logging.getLogger(__name__)  # pylint:disable=invalid-name
+#     logger.debug("Safely shutting down")
+#     # from lib.queue_manager import queue_manager  # pylint:disable=import-outside-toplevel
+#     queue_manager.terminate_queues()
+#     logger.debug("Cleanup complete. Shutting down queue manager and exiting")
+#     sys.exit(1 if got_error else 0)
 
 
 class FaceswapError(Exception):

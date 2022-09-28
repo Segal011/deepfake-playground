@@ -4,17 +4,15 @@
 import json
 import logging
 import os
-import sys
+from importlib import import_module
 
 import numpy as np
 
 from convert.converter import Converter
 from convert.fsmedia import Alignments, finalize
-from convert.disk_io import DiskIO
 from convert.align import AlignedFace
 from convert.image import ImagesLoader
 from convert.utils import FaceswapError, get_backend, get_folder
-from helpers.model import import_model
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -47,12 +45,7 @@ class Convert():  # pylint:disable=too-few-public-methods
         self._alignments = Alignments(self._args, False, False) #self._images.is_video)
 
         self._images = ImagesLoader(self._args.input_dir, self._alignments)
-
-        # self._opts = OptionalActions(self._args, self._images.file_list, self._alignments)
-        print("self._images.file_list", self._images)
-        # self._add_queues()
-        self._disk_io = DiskIO( arguments)
-        self._predictor = Predict(self._images.loaded_images, self._queue_size, arguments)
+        self._predictor = Predict(self._images.loaded_images, arguments)
         self._validate()
         get_folder(self._args.output_dir)
         configfile = self._args.configfile if hasattr(self._args, "configfile") else None
@@ -60,21 +53,10 @@ class Convert():  # pylint:disable=too-few-public-methods
         self._converter = Converter(self._predictor.output_size,
                                     self._predictor.coverage_ratio,
                                     self._predictor.centering,
-                                    self._disk_io.pre_encode,
                                     arguments,
                                     configfile=configfile)
 
         logger.debug("Initialized %s", self.__class__.__name__)
-
-    @property
-    def _queue_size(self):
-        """ int: Size of the converter queues. 16 for single process otherwise 32 """
-        if self._args.singleprocess:
-            retval = 16
-        else:
-            retval = 32
-        logger.debug(retval)
-        return retval
 
 
     def _validate(self):
@@ -94,11 +76,6 @@ class Convert():  # pylint:disable=too-few-public-methods
             If an invalid selection has been found.
 
         """
-        if (self._args.writer == "ffmpeg" and
-                not False and #self._images.is_video and
-                self._args.reference_video is None):
-            raise FaceswapError("Output as video selected, but using frames as input. You must "
-                                "provide a reference video ('-ref', '--reference-video').")
 
         if (self._args.on_the_fly and
                 self._args.mask_type not in ("none", "extended", "components")):
@@ -109,12 +86,6 @@ class Convert():  # pylint:disable=too-few-public-methods
         if (not self._args.on_the_fly and
                 self._args.mask_type not in ("none", "predicted") and
                 not self._alignments.mask_is_valid(self._args.mask_type)):
-            # msg = ("You have selected the Mask Type `{}` but at least one face does not have this "
-            #        "mask stored in the Alignments File.\nYou should generate the required masks "
-            #        "with the Mask Tool or set the Mask Type option to an existing Mask Type.\nA "
-            #        "summary of existing masks is as follows:\nTotal faces: {}, Masks: "
-            #        "{}".format(self._args.mask_type, self._alignments.faces_count,
-            #                    self._alignments.mask_summary))
             raise FaceswapError()
 
         if self._args.mask_type == "predicted" and not self._predictor.has_predicted_mask:
@@ -130,24 +101,14 @@ class Convert():  # pylint:disable=too-few-public-methods
                            "mask. Selecting first available mask: '%s'", mask_type)
             self._args.mask_type = mask_type
 
-    # def _add_queues(self):
-    #     """ Add the queues for in, patch and out. """
-    #     logger.debug("Adding queues. Queue size: %s", self._queue_size)
-    #     for qname in ("convert_in", "convert_out", "patch"):
-    #         queue_manager.add_queue(qname, self._queue_size)
-
     def process(self):
         """ The entry point for triggering the Conversion Process.
 
         Should only be called from  :class:`lib.cli.launcher.ScriptExecutor`
         """
         logger.debug("Starting Conversion")
-        # queue_manager.debug_monitor(5)
         try:
             self._convert_images()
-            # self._disk_io.save_thread.join()
-            # queue_manager.terminate_queues()
-
             finalize(1,
                      self._predictor.faces_count,
                      self._predictor.verify_output)
@@ -164,13 +125,8 @@ class Convert():  # pylint:disable=too-few-public-methods
         """ Start the multi-threaded patching process, monitor all threads for errors and join on
         completion. """
         logger.debug("Converting images")
-        # save_queue = queue_manager.get_queue("convert_out")
-        # patch_queue = queue_manager.get_queue("patch")
-
         item = self._predictor.predicted_face
         images = self._converter.process(item)
-        # print("images", images)
-        # print("rerererer", image)
         for name, image in images.items():
             fname = name.replace(self._args.input_dir, self._args.output_dir)
 
@@ -196,16 +152,15 @@ class Predict():
         The arguments that were passed to the convert process as generated from Faceswap's command
         line arguments
     """
-    def __init__(self, input_images, queue_size, arguments):
-        logger.debug("Initializing %s: (args: %s, queue_size: %s)",
-                     self.__class__.__name__, arguments, queue_size)
+    def __init__(self, input_images, arguments):
+        logger.debug("Initializing %s: (args: %s)",
+                     self.__class__.__name__, arguments)
         self._args = arguments
         # self._serializer = get_serializer("json")
         self._faces_count = 0
         self._verify_output = False
 
         self._model = self._load_model()
-        self._batchsize = self._get_batchsize(queue_size)
         self._sizes = self._get_io_sizes()
         self._coverage_ratio = self._model.coverage_ratio
         self._centering = self._model.config["centering"]
@@ -289,35 +244,18 @@ class Predict():
         model_dir = get_folder(self._args.model_dir, make_folder=False)
         if not model_dir:
             raise FaceswapError(f"{self._args.model_dir} does not exist.")
-        trainer = self._get_model_name(model_dir)
-        model = import_model("train.model", trainer, False)(model_dir, self._args, predict=True)
+        # trainer = self._get_model_name(model_dir)
+        # model = import_model("model", trainer, False)
+        name = self._get_model_name(model_dir).replace("-", "_")
+        ttl = "convert.model".split(".")[-1].title()
+        attr ="convert.model"
+        mod = ".".join((attr, name))
+        module = import_module(mod)
+        model = getattr(module, ttl)(model_dir, self._args, predict=True)
+
         model.build()
         logger.debug("Loaded Model")
         return model
-
-    def _get_batchsize(self, queue_size):
-        """ Get the batch size for feeding the model.
-
-        Sets the batch size to 1 if inference is being run on CPU, otherwise the minimum of the
-        input queue size and the model's `convert_batchsize` configuration option.
-
-        Parameters
-        ----------
-        queue_size: int
-            The queue size that is feeding the predictor
-
-        Returns
-        -------
-        int
-            The batch size that the model is to be fed at.
-        """
-        # print("Getting batchsize" , GPUStats().device_count)
-        is_cpu = True #GPUStats().device_count == 0
-        batchsize = 1 if is_cpu else self._model.config["convert_batchsize"]
-        batchsize = min(queue_size, batchsize)
-        logger.debug("Batchsize: %s", batchsize)
-        logger.debug("Got batchsize: %s", batchsize)
-        return batchsize
 
     def _get_model_name(self, model_dir):
         """ Return the name of the Faceswap model used.
@@ -416,23 +354,18 @@ class Predict():
 
         if faces_seen != 0:
             feed_faces = self._compile_feed_faces(item["feed_faces"])
-            batch_size = None
-            if is_amd and feed_faces.shape[0] != self._batchsize:
-                logger.info("Fallback to BS=1")
-                batch_size = 1
-            predicted = self._predict(feed_faces, batch_size)
+            predicted = self._predict(feed_faces)
         else:
             predicted = list()
 
-        final_batch = self._queue_out_frames([item], predicted)
+        if len(item["detected_faces"]) == 0:
+            item["swapped_faces"] = np.array(list())
+        else:
+            item["swapped_faces"] = predicted[0:len(item["detected_faces"])]
 
-        consecutive_no_faces = 0
-        faces_seen = 0
 
-        # logger.debug("Putting EOF")
-        # self.out_queue.put("EOF")
         logger.debug("Load queue complete")
-        return final_batch
+        return item
 
     def load_aligned(self, item):
         """ Load the model's feed faces and the reference output faces.
@@ -491,7 +424,7 @@ class Predict():
         logger.info("Compiled Feed faces. Shape: %s", retval.shape)
         return retval
 
-    def _predict(self, feed_faces, batch_size=None):
+    def _predict(self, feed_faces):
         """ Run the Faceswap models' prediction function.
 
         Parameters
@@ -515,7 +448,7 @@ class Predict():
         feed = [feed_faces]
         logger.info("Input shape(s): %s", [item.shape for item in feed])
 
-        predicted = self._model.model.predict(feed, verbose=0,batch_size=batch_size)
+        predicted = self._model.model.predict(feed, verbose=0)
         predicted = predicted if isinstance(predicted, list) else [predicted]
 
         if self._model.color_order.lower() == "rgb":
@@ -532,32 +465,4 @@ class Predict():
         logger.info("Final shape: %s", predicted.shape)
         return predicted
 
-    def _queue_out_frames(self, batch, swapped_faces):
-        """ Compile the batch back to original frames and put to the Out Queue.
 
-        For batching, faces are split away from their frames. This compiles all detected faces
-        back to their parent frame before putting each frame to the out queue in batches.
-
-        Parameters
-        ----------
-        batch: dict
-            The batch that was used as the input for the model predict function
-        swapped_faces: :class:`numpy.ndarray`
-            The predictions returned from the model's predict function
-        """
-        logger.info("Queueing out batch. Batchsize: %s", len(batch))
-        pointer = 0
-        for item in batch:
-            num_faces = len(item["detected_faces"])
-            if num_faces == 0:
-                item["swapped_faces"] = np.array(list())
-            else:
-                item["swapped_faces"] = swapped_faces[pointer:pointer + num_faces]
-
-            logger.info("Putting to queue. ('%s', detected_faces: %s, reference_faces: %s, "
-                         "swapped_faces: %s)", item["filename"], len(item["detected_faces"]),
-                         len(item["reference_faces"]), item["swapped_faces"].shape[0])
-            pointer += num_faces
-        # self._out_queue.put(batch)
-        logger.info("Queued out batch. Batchsize: %s", len(batch))
-        return batch

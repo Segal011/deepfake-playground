@@ -197,6 +197,10 @@ class Converter():
                                casting='unsafe')
         if self._writer_pre_encode is not None:
             patched_face = self._writer_pre_encode(patched_face)
+            retval2 = [cv2.imencode('.png',  # pylint: disable=no-member
+                                    patched_face,
+                                    (cv2.IMWRITE_PNG_COMPRESSION, 3)
+                                    )[1]]
         logger.info("Patched image: '%s'", predicted["filename"])
         return patched_face
 

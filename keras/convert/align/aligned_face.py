@@ -171,10 +171,6 @@ class AlignedFace():
                      self.__class__.__name__, self._matrices["legacy"], self._padding,
                      self._face if self._face is None else self._face.shape)
 
-    @property
-    def size(self):
-        """ int: The size (in pixels) of one side of the square extracted face image. """
-        return self._size
 
     @property
     def padding(self):
@@ -194,16 +190,6 @@ class AlignedFace():
             logger.info("original matrix: %s, new matrix: %s", self._matrices["legacy"], matrix)
         return self._matrices[self._centering]
 
-    @property
-    def _head_size(self):
-        """ int: The size of the full head extract image calculated from the required
-        centering. """
-        with self._cache["head_size"][1]:
-            if self._centering not in self._cache["head_size"][0]:
-                self._cache["head_size"][0][self._centering] = get_centered_size(self._centering,
-                                                                                 "head",
-                                                                                 self.size)
-        return self._cache["head_size"][0][self._centering]
 
     @property
     def pose(self):
@@ -236,44 +222,6 @@ class AlignedFace():
         return self._face
 
     @property
-    def original_roi(self):
-        """ :class:`numpy.ndarray`: The location of the extracted face box within the original
-        frame. """
-        with self._cache["original_roi"][1]:
-            if self._cache["original_roi"][0] is None:
-                roi = np.array([[0, 0],
-                                [0, self._size - 1],
-                                [self._size - 1, self._size - 1],
-                                [self._size - 1, 0]])
-                roi = np.rint(self.transform_points(roi, invert=True)).astype("int32")
-                logger.info("original roi: %s", roi)
-                self._cache["original_roi"][0] = roi
-        return self._cache["original_roi"][0]
-
-    @property
-    def landmarks(self):
-        """ :class:`numpy.ndarray`: The 68 point facial landmarks aligned to the extracted face
-        box. """
-        with self._cache["landmarks"][1]:
-            if self._cache["landmarks"][0] is None:
-                lms = self.transform_points(self._frame_landmarks)
-                logger.info("aligned landmarks: %s", lms)
-                self._cache["landmarks"][0] = lms
-        return self._cache["landmarks"][0]
-
-    @property
-    def normalized_landmarks(self):
-        """ :class:`numpy.ndarray`: The 68 point facial landmarks normalized to 0.0 - 1.0 as
-        aligned by Umeyama. """
-        with self._cache["landmarks_normalized"][1]:
-            if self._cache["landmarks_normalized"][0] is None:
-                lms = np.expand_dims(self._frame_landmarks, axis=1)
-                lms = cv2.transform(lms, self._matrices["legacy"], lms.shape).squeeze()
-                logger.info("normalized landmarks: %s", lms)
-                self._cache["landmarks_normalized"][0] = lms
-        return self._cache["landmarks_normalized"][0]
-
-    @property
     def interpolators(self):
         """ tuple: (`interpolator` and `reverse interpolator`) for the :attr:`adjusted matrix`. """
         with self._cache["interpolators"][1]:
@@ -283,17 +231,6 @@ class AlignedFace():
                 self._cache["interpolators"][0] = interpolators
         return self._cache["interpolators"][0]
 
-    @property
-    def average_distance(self):
-        """ float: The average distance of the core landmarks (18-67) from the mean face that was
-        used for aligning the image. """
-        with self._cache["average_distance"][1]:
-            if self._cache["average_distance"][0] is None:
-                # pylint:disable=unsubscriptable-object
-                average_distance = np.mean(np.abs(self.normalized_landmarks[17:] - _MEAN_FACE))
-                logger.info("average_distance: %s", average_distance)
-                self._cache["average_distance"][0] = average_distance
-        return self._cache["average_distance"][0]
 
     @classmethod
     def _set_cache(cls):
@@ -318,30 +255,6 @@ class AlignedFace():
                     cropped_roi=[dict(), Lock()],
                     cropped_size=[dict(), Lock()],
                     cropped_slices=[dict(), Lock()])
-
-    def transform_points(self, points, invert=False):
-        """ Perform transformation on a series of (x, y) co-ordinates in world space into
-        aligned face space.
-
-        Parameters
-        ----------
-        points: :class:`numpy.ndarray`
-            The points to transform
-        invert: bool, optional
-            ``True`` to reverse the transformation (i.e. transform the points into world space from
-            aligned face space). Default: ``False``
-
-        Returns
-        -------
-        :class:`numpy.ndarray`
-            The transformed points
-        """
-        retval = np.expand_dims(points, axis=1)
-        mat = cv2.invertAffineTransform(self.adjusted_matrix) if invert else self.adjusted_matrix
-        retval = cv2.transform(retval, mat, retval.shape).squeeze()
-        logger.info("invert: %s, Original points: %s, transformed points: %s",
-                     invert, points, retval)
-        return retval
 
     def extract_face(self, image):
         """ Extract the face from a source image and populate :attr:`face`. If an image is not
@@ -407,25 +320,10 @@ class PoseEstimate():
     """
     def __init__(self, landmarks):
         self._distortion_coefficients = np.zeros((4, 1))  # Assuming no lens distortion
-        self._xyz_2d = None
 
         self._camera_matrix = self._get_camera_matrix()
         self._rotation, self._translation = self._solve_pnp(landmarks)
         self._offset = self._get_offset()
-        self._pitch_yaw = None
-
-    @property
-    def xyz_2d(self):
-        """ :class:`numpy.ndarray` projected (x, y) coordinates for each x, y, z point at a
-        constant distance from adjusted center of the skull (0.5, 0.5) in the 2D space. """
-        if self._xyz_2d is None:
-            xyz = cv2.projectPoints(np.float32([[6, 0, -2.3], [0, 6, -2.3], [0, 0, 3.7]]),
-                                    self._rotation,
-                                    self._translation,
-                                    self._camera_matrix,
-                                    self._distortion_coefficients)[0].squeeze()
-            self._xyz_2d = xyz - self._offset["head"]
-        return self._xyz_2d
 
     @property
     def offset(self):
@@ -434,27 +332,6 @@ class PoseEstimate():
         rather than the nose area. """
         return self._offset
 
-    @property
-    def pitch(self):
-        """ float: The pitch of the aligned face in eular angles """
-        if not self._pitch_yaw:
-            self._get_pitch_yaw()
-        return self._pitch_yaw[0]
-
-    @property
-    def yaw(self):
-        """ float: The yaw of the aligned face in eular angles """
-        if not self._pitch_yaw:
-            self._get_pitch_yaw()
-        return self._pitch_yaw[1]
-
-    def _get_pitch_yaw(self):
-        """ Obtain the yaw and pitch from the :attr:`_rotation` in eular angles. """
-        proj_matrix = np.zeros((3, 4), dtype="float32")
-        proj_matrix[:3, :3] = cv2.Rodrigues(self._rotation)[0]
-        euler = cv2.decomposeProjectionMatrix(proj_matrix)[-1]
-        self._pitch_yaw = (euler[0][0], euler[1][0])
-        logger.info("yaw_pitch: %s", self._pitch_yaw)
 
     @classmethod
     def _get_camera_matrix(cls):
@@ -522,47 +399,6 @@ class PoseEstimate():
             offset[key] = center - (0.5, 0.5)
         logger.info("offset: %s", offset)
         return offset
-
-
-def get_centered_size(source_centering, target_centering, size):
-    """ Obtain the size of a cropped face from an aligned image.
-
-    Given an image of a certain dimensions, returns the dimensions of the sub-crop within that
-    image for the requested centering.
-
-    Notes
-    -----
-    `"legacy"` places the nose in the center of the image (the original method for aligning).
-    `"face"` aligns for the nose to be in the center of the face (top to bottom) but the center
-    of the skull for left to right. `"head"` places the center in the middle of the skull in 3D
-    space.
-
-    The ROI in relation to the source image is calculated by rounding the padding of one side
-    to the nearest integer then applying this padding to the center of the crop, to ensure that
-    any dimensions always have an even number of pixels.
-
-    Parameters
-    ----------
-    source_centering: ["head", "face", "legacy"]
-        The centering that the original image is aligned at
-    target_centering: ["head", "face", "legacy"]
-        The centering that the sub-crop size should be obtained for
-    size: int
-        The size of the source image to obtain the cropped size for
-
-    Returns
-    -------
-    int
-        The pixel size of a sub-crop image from a full head aligned image
-    """
-    if source_centering == target_centering:
-        retval = size
-    else:
-        src_size = size - (size * _EXTRACT_RATIOS[source_centering])
-        retval = 2 * int(np.rint(src_size / (1 - _EXTRACT_RATIOS[target_centering]) / 2))
-    logger.info("source_centering: %s, target_centering: %s, size: %s, crop_size: %s",
-                 source_centering, target_centering, size, retval)
-    return retval
 
 
 def _umeyama(source, destination, estimate_scale):

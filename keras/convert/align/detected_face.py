@@ -1,17 +1,12 @@
 #!/usr/bin python3
 """ Face and landmarks detection for faceswap.py """
 import logging
-import os
-
-from hashlib import sha1
 from zlib import compress, decompress
 
 import cv2
 import numpy as np
 
 # from convert.image import read_image
-from convert.utils import FaceswapError
-from . import AlignedFace, _EXTRACT_RATIOS, get_centered_size
 
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
@@ -93,7 +88,6 @@ class DetectedFace():
         self.y = y  # pylint:disable=invalid-name
         self.h = h  # pylint:disable=invalid-name
         self.landmarks_xy = landmarks_xy
-        self.thumbnail = None
         self.mask = dict() if mask is None else mask
 
         self.aligned = None
@@ -119,113 +113,6 @@ class DetectedFace():
         """int: Bottom point (in pixels) of face detection bounding box within the parent image """
         return self.y + self.h
 
-    def add_mask(self, name, mask, affine_matrix, interpolator,
-                 storage_size=128, storage_centering="face"):
-        """ Add a :class:`Mask` to this detected face
-
-        The mask should be the original output from  :mod:`plugins.extract.mask`
-        If a mask with this name already exists it will be overwritten by the given
-        mask.
-
-        Parameters
-        ----------
-        name: str
-            The name of the mask as defined by the :attr:`plugins.extract.mask._base.name`
-            parameter.
-        mask: numpy.ndarray
-            The mask that is to be added as output from :mod:`plugins.extract.mask`
-            It should be in the range 0.0 - 1.0 ideally with a ``dtype`` of ``float32``
-        affine_matrix: numpy.ndarray
-            The transformation matrix required to transform the mask to the original frame.
-        interpolator, int:
-            The CV2 interpolator required to transform this mask to it's original frame.
-        storage_size, int (optional):
-            The size the mask is to be stored at. Default: 128
-        storage_centering, str (optional):
-            The centering to store the mask at. One of `"legacy"`, `"face"`, `"head"`.
-            Default: `"face"`
-        """
-        logger.info("name: '%s', mask shape: %s, affine_matrix: %s, interpolator: %s, "
-                     "storage_size: %s, storage_centering: %s)", name, mask.shape, affine_matrix,
-                     interpolator, storage_size, storage_centering)
-        fsmask = Mask(storage_size=storage_size, storage_centering=storage_centering)
-        fsmask.add(mask, affine_matrix, interpolator)
-        self.mask[name] = fsmask
-
-    def get_landmark_mask(self, size, area,
-                          aligned=True, centering="face", dilation=0, blur_kernel=0, as_zip=False):
-        """ Obtain a single channel mask based on the face's landmark points.
-
-        Parameters
-        ----------
-        size: int or tuple
-            The size of the aligned mask to retrieve. Should be an `int` if an aligned face is
-            being requested, or a ('height', 'width') shape tuple if a full frame is being
-            requested
-        area: ["mouth", "eyes"]
-            The type of mask to obtain. `face` is a full face mask the others are masks for those
-            specific areas
-        aligned: bool, optional
-            ``True`` if the returned mask should be for an aligned face. ``False`` if a full frame
-            mask should be returned. Default ``True``
-        centering: ["legacy", "face", "head"], optional
-            Only used if `aligned`=``True``. The centering for the landmarks based mask. Should be
-            the same as the centering used for the extracted face that this mask will be applied
-            to. "legacy" places the nose in the center of the image (the original method for
-            aligning). "face" aligns for the nose to be in the center of the face (top to bottom)
-            but the center of the skull for left to right. "head" aligns for the center of the
-            skull (in 3D space) being the center of the extracted image, with the crop holding the
-            full head. Default: `"face"`
-        dilation: int, optional
-            The amount of dilation to apply to the mask. `0` for none. Default: `0`
-        blur_kernel: int, optional
-            The kernel size for applying gaussian blur to apply to the mask. `0` for none.
-            Default: `0`
-        as_zip: bool, optional
-            ``True`` if the mask should be returned zipped otherwise ``False``
-
-        Returns
-        -------
-        :class:`numpy.ndarray` or zipped array
-            The mask as a single channel image of the given :attr:`size` dimension. If
-            :attr:`as_zip` is ``True`` then the :class:`numpy.ndarray` will be contained within a
-            zipped container
-        """
-        # TODO Face mask generation from landmarks
-        logger.info("size: %s, area: %s, aligned: %s, dilation: %s, blur_kernel: %s, as_zip: %s",
-                     size, area, aligned, dilation, blur_kernel, as_zip)
-        areas = dict(mouth=[slice(48, 60)], eyes=[slice(36, 42), slice(42, 48)])
-        if aligned:
-            face = AlignedFace(self.landmarks_xy, centering=centering, size=size)
-            landmarks = face.landmarks
-            size = (size, size)
-        else:
-            landmarks = self.landmarks_xy
-        points = [landmarks[zone] for zone in areas[area]]  # pylint:disable=unsubscriptable-object
-        mask = _LandmarksMask(size, points, dilation=dilation, blur_kernel=blur_kernel)
-        retval = mask.get(as_zip=as_zip)
-        return retval
-
-    def to_alignment(self):
-        """  Return the detected face formatted for an alignments file
-
-        returns
-        -------
-        alignment: dict
-            The alignment dict will be returned with the keys ``x``, ``w``, ``y``, ``h``,
-            ``landmarks_xy``, ``mask``. The additional key ``thumb`` will be provided if the
-            detected face object contains a thumbnail.
-        """
-        alignment = dict(x=self.x,
-                         w=self.w,
-                         y=self.y,
-                         h=self.h,
-                         landmarks_xy=self.landmarks_xy,
-                         mask={name: mask.to_dict() for name, mask in self.mask.items()})
-        if self.thumbnail is not None:
-            alignment["thumb"] = self.thumbnail
-        logger.info("Returning: %s", alignment)
-        return alignment
 
     def from_alignment(self, alignment, image=None, with_thumb=False):
         """ Set the attributes of this class from an alignments file and optionally load the face
@@ -259,9 +146,7 @@ class DetectedFace():
             landmarks = np.array(landmarks, dtype="float32")
         self.landmarks_xy = landmarks.copy()
 
-        if with_thumb:
-            # Thumbnails currently only used for manual tool. Default to None
-            self.thumbnail = alignment.get("thumb", None)
+
         # Manual tool and legacy alignments will not have a mask
         self.aligned = None
 
@@ -271,170 +156,11 @@ class DetectedFace():
                 self.mask[name] = Mask()
                 self.mask[name].from_dict(mask_dict)
         if image is not None and image.any():
-            self._image_to_face(image)
+            self.image = image[self.top: self.bottom,
+                           self.left: self.right]
         logger.info("Created from alignment: (x: %s, w: %s, y: %s. h: %s, "
                      "landmarks: %s, mask: %s)",
                      self.x, self.w, self.y, self.h, self.landmarks_xy, self.mask)
-
-    def to_png_meta(self):
-        """ Return the detected face formatted for insertion into a png itxt header.
-
-        returns: dict
-            The alignments dict will be returned with the keys ``x``, ``w``, ``y``, ``h``,
-            ``landmarks_xy`` and ``mask``
-        """
-        alignment = dict(x=self.x,
-                         w=self.w,
-                         y=self.y,
-                         h=self.h,
-                         landmarks_xy=self.landmarks_xy.tolist(),
-                         mask={name: mask.to_png_meta() for name, mask in self.mask.items()})
-        return alignment
-
-    def from_png_meta(self, alignment):
-        """ Set the attributes of this class from alignments stored in a png exif header.
-
-        Parameters
-        ----------
-        alignment: dict
-            A dictionary entry for a face from alignments stored in a png exif header containing
-            the keys ``x``, ``w``, ``y``, ``h``, ``landmarks_xy`` and ``mask``
-        """
-        self.x = alignment["x"]
-        self.w = alignment["w"]
-        self.y = alignment["y"]
-        self.h = alignment["h"]
-        self.landmarks_xy = np.array(alignment["landmarks_xy"], dtype="float32")
-        self.mask = dict()
-        for name, mask_dict in alignment["mask"].items():
-            self.mask[name] = Mask()
-            self.mask[name].from_dict(mask_dict)
-        logger.info("Created from png exif header: (x: %s, w: %s, y: %s. h: %s, landmarks: %s, "
-                     "mask: %s)", self.x, self.w, self.y, self.h, self.landmarks_xy, self.mask)
-
-    def _image_to_face(self, image):
-        """ set self.image to be the cropped face from detected bounding box """
-        logger.info("Cropping face from image")
-        self.image = image[self.top: self.bottom,
-                           self.left: self.right]
-
-    # <<< Aligned Face methods and properties >>> #
-    def load_aligned(self, image, size=256, dtype=None, centering="head", force=False):
-        """ Align a face from a given image.
-
-        Aligning a face is a relatively expensive task and is not required for all uses of
-        the :class:`~lib.align.DetectedFace` object, so call this function explicitly to
-        load an aligned face.
-
-        This method plugs into :mod:`lib.align.AlignedFace` to perform face alignment based on this
-        face's ``landmarks_xy``. If the face has already been aligned, then this function will
-        return having performed no action.
-
-        Parameters
-        ----------
-        image: numpy.ndarray
-            The image that contains the face to be aligned
-        size: int
-            The size of the output face in pixels
-        dtype: str, optional
-            Optionally set a ``dtype`` for the final face to be formatted in. Default: ``None``
-        centering: ["legacy", "face", "head"], optional
-            The type of extracted face that should be loaded. "legacy" places the nose in the
-            center of the image (the original method for aligning). "face" aligns for the nose to
-            be in the center of the face (top to bottom) but the center of the skull for left to
-            right. "head" aligns for the center of the skull (in 3D space) being the center of the
-            extracted image, with the crop holding the full head.
-            Default: `"head"`
-        force: bool, optional
-            Force an update of the aligned face, even if it is already loaded. Default: ``False``
-
-        Notes
-        -----
-        This method must be executed to get access to the following an :class:`AlignedFace` object
-        """
-        if self.aligned and not force:
-            # Don't reload an already aligned face
-            logger.info("Skipping alignment calculation for already aligned face")
-        else:
-            logger.info("Loading aligned face: (size: %s, dtype: %s)", size, dtype)
-            self.aligned = AlignedFace(self.landmarks_xy,
-                                       image=image,
-                                       centering=centering,
-                                       size=size,
-                                       coverage_ratio=1.0,
-                                       dtype=dtype,
-                                       is_aligned=False)
-
-
-class _LandmarksMask():  # pylint:disable=too-few-public-methods
-    """ Create a single channel mask from aligned landmark points.
-
-    size: tuple
-        The (height, width) shape tuple that the mask should be returned as
-    points: list
-        A list of landmark points that correspond to the given shape tuple to create
-        the mask. Each item in the list should be a :class:`numpy.ndarray` that a filled
-        convex polygon will be created from
-    dilation: int, optional
-        The amount of dilation to apply to the mask. `0` for none. Default: `0`
-    blur_kernel: int, optional
-        The kernel size for applying gaussian blur to apply to the mask. `0` for none. Default: `0`
-    """
-    def __init__(self, size, points, dilation=0, blur_kernel=0):
-        logger.info("Initializing: %s: (size: %s, points: %s, dilation: %s, blur_kernel: %s)",
-                     self.__class__.__name__, size, points, dilation, blur_kernel)
-        self._size = size
-        self._points = points
-        self._dilation = dilation
-        self._blur_kernel = blur_kernel
-        self._mask = None
-        logger.info("Initialized: %s", self.__class__.__name__)
-
-    def get(self, as_zip=False):
-        """ Obtain the mask.
-
-        Parameters
-        ----------
-        as_zip: bool, optional
-            ``True`` if the mask should be returned zipped otherwise ``False``
-
-        Returns
-        -------
-        :class:`numpy.ndarray` or zipped array
-            The mask as a single channel image of the given :attr:`size` dimension. If
-            :attr:`as_zip` is ``True`` then the :class:`numpy.ndarray` will be contained within a
-            zipped container
-        """
-        if not np.any(self._mask):
-            self._generate_mask()
-        retval = compress(self._mask) if as_zip else self._mask
-        logger.info("as_zip: %s, retval type: %s", as_zip, type(retval))
-        return retval
-
-    def _generate_mask(self):
-        """ Generate the mask.
-
-        Creates the mask applying any requested dilation and blurring and assigns to
-        :attr:`_mask`
-
-        Returns
-        -------
-        :class:`numpy.ndarray`
-            The mask as a single channel image of the given :attr:`size` dimension.
-        """
-        mask = np.zeros((self._size) + (1, ), dtype="float32")
-        for landmarks in self._points:
-            lms = np.rint(landmarks).astype("int")
-            cv2.fillConvexPoly(mask, cv2.convexHull(lms), 1.0, lineType=cv2.LINE_AA)
-        if self._dilation != 0:
-            mask = cv2.dilate(mask,
-                              cv2.getStructuringElement(cv2.MORPH_ELLIPSE,
-                                                        (self._dilation, self._dilation)),
-                              iterations=1)
-        if self._blur_kernel != 0:
-            mask = BlurMask("gaussian", mask, self._blur_kernel).blurred
-        logger.info("mask: (shape: %s, dtype: %s)", mask.shape, mask.dtype)
-        self._mask = (mask * 255.0).astype("uint8")
 
 
 class Mask():
@@ -487,11 +213,11 @@ class Mask():
         if self._threshold != 0.0:
             mask[mask < self._threshold] = 0.0
             mask[mask > 255.0 - self._threshold] = 255.0
-        if self._blur["kernel"] != 0:
-            mask = BlurMask(self._blur["type"],
-                            mask,
-                            self._blur["kernel"],
-                            passes=self._blur["passes"]).blurred
+        # if self._blur["kernel"] != 0:
+        #     mask = BlurMask(self._blur["type"],
+        #                     mask,
+        #                     self._blur["kernel"],
+        #                     passes=self._blur["passes"]).blurred
         if self._sub_crop["size"]:  # Crop the mask to the given centering
             out = np.zeros((self._sub_crop["size"], self._sub_crop["size"], 1), dtype=mask.dtype)
             slice_in, slice_out = self._sub_crop["slice_in"], self._sub_crop["slice_out"]
@@ -618,40 +344,6 @@ class Mask():
             self._blur["type"] = blur_type
             self._blur["passes"] = blur_passes
         self._threshold = (threshold / 100.0) * 255.0
-
-    def set_sub_crop(self, offset, centering):
-        """ Set the internal crop area of the mask to be returned.
-
-        This impacts the returned mask from :attr:`mask` if the requested mask is required for
-        different face centering than what has been stored.
-
-        Parameters
-        ----------
-        offset: :class:`numpy.ndarray`
-            The (x, y) offset from the center point to return the mask for
-        centering: str
-            The centering to set the sub crop area for. One of `"legacy"`, `"face"`. `"head"`
-        """
-        if centering == self.stored_centering:
-            return
-
-        src_size = self.stored_size - (self.stored_size * _EXTRACT_RATIOS[self.stored_centering])
-        offset *= ((self.stored_size - (src_size / 2)) / 2)
-        center = np.rint(offset + self.stored_size / 2).astype("int32")
-
-        crop_size = get_centered_size(self.stored_centering, centering, self.stored_size)
-        roi = np.array([center - crop_size // 2, center + crop_size // 2]).ravel()
-
-        self._sub_crop["size"] = crop_size
-        self._sub_crop["slice_in"] = [slice(max(roi[1], 0), max(roi[3], 0)),
-                                      slice(max(roi[0], 0), max(roi[2], 0))]
-        self._sub_crop["slice_out"] = [
-            slice(max(roi[1] * -1, 0),
-                  crop_size - min(crop_size, max(0, roi[3] - self.stored_size))),
-            slice(max(roi[0] * -1, 0),
-                  crop_size - min(crop_size, max(0, roi[2] - self.stored_size)))]
-
-        logger.info("src_size: %s, roi: %s, sub_crop: %s", src_size, roi, self._sub_crop)
 
     def _adjust_affine_matrix(self, mask_size, affine_matrix):
         """ Adjust the affine matrix for the mask's storage size
@@ -886,7 +578,3 @@ class BlurMask():  # pylint:disable=too-few-public-methods
                   for kword in self._kwarg_requirements[self._blur_type]}
         logger.info("BlurMask kwargs: %s", retval)
         return retval
-
-
-_HASHES_SEEN = dict()
-

@@ -35,7 +35,7 @@ class Train():
         """ The training process to be run inside a thread. """
         try:
             logger.debug("Commencing Training")
-            model = self._load_model(r"C:\Users\37060\Desktop\smth\model")
+            model = self._load_model(self._args.model_dir)
             trainer = self._load_trainer(model)            
             self._run_training_cycle(model, trainer)
         except KeyboardInterrupt:

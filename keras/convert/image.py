@@ -10,7 +10,6 @@ from tqdm import tqdm
 from dlib import get_frontal_face_detector
 
 from convert.align import  DetectedFace
-from convert.align.detected_face import Mask
 from plugins.extract.pipeline import Extractor
 
 

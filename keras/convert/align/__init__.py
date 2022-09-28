@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """ Package for handling alignments files, detected faces and aligned faces along with their
 associated objects. """
-from .aligned_face import AlignedFace, _EXTRACT_RATIOS,  get_centered_size
-from .alignments import Alignments  # noqa
-from .detected_face import DetectedFace, Mask
+from .aligned_face import AlignedFace
+from .detected_face import DetectedFace, BlurMask

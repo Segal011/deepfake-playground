@@ -928,7 +928,7 @@ class TrainArgs(FaceSwapArgs):
             action=DirFullPaths,
             dest="model_dir",
             # required=True,
-            default=r"C:\Users\37060\Desktop\Magistrinis-darbas\Projektas\keras\lib\model",
+            # default=r"C:\Users\37060\Desktop\Magistrinis-darbas\Projektas\keras\lib\model",
             group=_("model"),
             help=_("Model directory. This is where the training data will be stored. You should "
                    "always specify a new folder for new models. If starting a new model, select "
