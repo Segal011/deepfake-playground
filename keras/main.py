@@ -1,21 +1,31 @@
 from argparse import ArgumentParser
-from train import Train
+# from train import Train
 from convert.convert_one import Convert
-from lib.cli import args as cli_args
+# from lib.cli import args as cli_args
 
 # from convert.cli import args as cli_args
 # from lib.config import generate_configs
 # from lib.utils import get_backend
 import sys
 
-_PARSER = cli_args.FullHelpArgumentParser()
+# _PARSER = cli_args.FullHelpArgumentParser()
 
 
-def _bad_args(*args) -> None:  # pylint:disable=unused-argument
-    """ Print help to console when bad arguments are provided. """
-    print(cli_args)
-    _PARSER.print_help()
-    sys.exit(0)
+# def _bad_args(*args) -> None:  # pylint:disable=unused-argument
+#     """ Print help to console when bad arguments are provided. """
+#     print(cli_args)
+#     _PARSER.print_help()
+#     sys.exit(0)
+
+
+# from convert.model.lightweight import Model
+
+class Arguments:
+    def __init__(self, input_dir, output_dir, model_dir):
+        self.input_dir = input_dir or r"C:\Users\37060\Desktop\smth\data\001_part"
+        self.output_dir = output_dir or r"C:\Users\37060\Desktop\smth\data\1_2"
+        self.model_dir = model_dir or r"C:/Users/37060/Desktop/smth/model"
+        # self.model_class = Model
 
 
 if __name__ == '__main__':
@@ -26,12 +36,12 @@ if __name__ == '__main__':
     #     Train(arguments).train()
 
     # Converting
-    subparser = _PARSER.add_subparsers()
-    arguments = cli_args.ConvertArgs(subparser,
-                                     "convert",
-                                     ("Convert source pictures or video to a new one with the face swapped"))
-    arguments = arguments.parser.parse_args()
-    Convert(arguments).process()
+    # subparser = _PARSER.add_subparsers()
+    # arguments = cli_args.ConvertArgs(subparser,
+    #                                  "convert",
+    #                                  ("Convert source pictures or video to a new one with the face swapped"))
+    # arguments = arguments.parser.parse_args()
+    Convert(Arguments(None, None, None)).process()
 
     # import json
 #

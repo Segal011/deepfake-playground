@@ -5,33 +5,29 @@ import logging
 import cv2
 import numpy as np
 
-from convert.convert.mask.mask_blend import Mask
-from convert.convert.color.avg_color import Color
+from convert.mask_blend import Mask
+from convert.color import Color
 
-logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
+logger = logging.getLogger(__name__)
 
 
 class Converter():
     def __init__(self, output_size, coverage_ratio, centering,
-                 arguments, configfile=None):
+                 arguments):
         self._output_size = output_size
         self._coverage_ratio = coverage_ratio
         self._centering = centering
         self._args = arguments
-        self._configfile = configfile
 
-        self._scale = arguments.output_scale / 100
         self._adjustments = dict(mask=None, color=None, seamless=None, sharpening=None)
 
 # TODO pazaist su colot ir mask, kurie aprasyti argumentuose
         self._adjustments["mask"] = Mask(
-            self._args.mask_type,
             self._output_size,
             self._coverage_ratio,
-            configfile=self._configfile
         )
 
-        self._adjustments["color"] = Color(configfile=self._configfile)
+        self._adjustments["color"] = Color()
 
     def process(self, item):
         """ Main convert process.
@@ -52,7 +48,20 @@ class Converter():
         images = {}
         logger.info("Patch queue got: '%s'", item["filename"])
         try:
-            image = self._patch_image(item)
+            logger.info("Run selected adjustments and swap the faces in a frame.: '%s'", item["filename"])
+            frame_size = (item["image"].shape[1], item["image"].shape[0])
+            new_image, background = self._get_new_image(item, frame_size)
+            patched_face = self._post_warp_adjustments(background, new_image)
+            patched_face *= 255.0
+            patched_face = np.rint(patched_face,
+                                   out=np.empty(patched_face.shape, dtype="uint8"),
+                                   casting='unsafe')
+            image = [cv2.imencode('.png',  # pylint: disable=no-member
+                                         patched_face,
+                                         (cv2.IMWRITE_PNG_COMPRESSION, 3)
+                                         )[1]]
+
+            logger.info("Patched image: '%s'", item["filename"])
         except Exception as err:  # pylint: disable=broad-except
             # Log error and output original frame
             logger.error("Failed to convert image: '%s'. Reason: %s",  item["filename"], str(err))
@@ -65,40 +74,6 @@ class Converter():
         logger.debug("Completed convert process")
         return images
 
-    def _patch_image(self, predicted):
-        """ Patch a swapped face onto a frame.
-
-        Run selected adjustments and swap the faces in a frame.
-
-        Parameters
-        ----------
-        predicted: dict
-            The output from :class:`scripts.convert.Predictor`.
-
-        Returns
-        -------
-        :class: `numpy.ndarray` or pre-encoded image output
-            The final frame ready for writing by a :mod:`plugins.convert.writer` plugin.
-            Frame is either an array, or the pre-encoded output from the writer's pre-encode
-            function (if it has one)
-
-        """
-        logger.info("Patching image: '%s'", predicted["filename"])
-        frame_size = (predicted["image"].shape[1], predicted["image"].shape[0])
-        new_image, background = self._get_new_image(predicted, frame_size)
-        patched_face = self._post_warp_adjustments(background, new_image)
-        patched_face = self._scale_image(patched_face)
-        patched_face *= 255.0
-        patched_face = np.rint(patched_face,
-                               out=np.empty(patched_face.shape, dtype="uint8"),
-                               casting='unsafe')
-        patched_face = [cv2.imencode('.png',  # pylint: disable=no-member
-                                    patched_face,
-                                    (cv2.IMWRITE_PNG_COMPRESSION, 3)
-                                    )[1]]
-
-        logger.info("Patched image: '%s'", predicted["filename"])
-        return patched_face
 
     def _get_new_image(self, predicted, frame_size):
         """ Get the new face from the predictor and apply pre-warp manipulations.
@@ -214,14 +189,8 @@ class Converter():
             The swapped face with the requested mask added to the Alpha channel
         """
         logger.info("Getting mask. Image shape: %s", new_face.shape)
-        if self._args.mask_type not in ("none", "predicted"):
-            mask_centering = detected_face.mask[self._args.mask_type].stored_centering
-        else:
-            mask_centering = "face"  # Unused but requires a valid value
-        crop_offset = (reference_face.pose.offset[self._centering] -
-                       reference_face.pose.offset[mask_centering])
-        mask, raw_mask = self._adjustments["mask"].run(detected_face, crop_offset, self._centering,
-                                                       predicted_mask=predicted_mask)
+
+        mask, raw_mask = self._adjustments["mask"].run(detected_face)
         logger.info("Adding mask to alpha channel")
         new_face = np.concatenate((new_face, mask), -1)
         logger.info("Got mask. Image shape: %s", new_face.shape)
@@ -246,40 +215,9 @@ class Converter():
         if self._adjustments["sharpening"] is not None:
             new_image = self._adjustments["sharpening"].run(new_image)
 
-     
-        foreground, mask = np.split(new_image,  # pylint:disable=unbalanced-tuple-unpacking
-                                    (3, ),
-                                    axis=-1)
+        foreground, mask = np.split(new_image, (3, ), axis=-1)
         foreground *= mask
         background *= (1.0 - mask)
         background += foreground
         frame = background
-        np.clip(frame, 0.0, 1.0, out=frame)
         return frame
-
-    def _scale_image(self, frame):
-        """ Scale the final image if requested.
-
-        If output scale has been requested in command line arguments, scale the output
-        otherwise return the final frame.
-
-        Parameters
-        ----------
-        frame: :class:`numpy.ndarray`
-            The final frame with faces swapped
-
-        Returns
-        -------
-        :class:`numpy.ndarray`
-            The final frame scaled by the requested scaling factor
-        """
-        if self._scale == 1:
-            return frame
-        # logger.info("source frame: %s", frame.shape)
-        # interp = cv2.INTER_CUBIC if self._scale > 1 else cv2.INTER_AREA
-        # dims = (round((frame.shape[1] / 2 * self._scale) * 2),
-        #         round((frame.shape[0] / 2 * self._scale) * 2))
-        # frame = cv2.resize(frame, dims, interpolation=interp)
-        # logger.info("resized frame: %s", frame.shape)
-        # np.clip(frame, 0.0, 1.0, out=frame)
-        # return frame

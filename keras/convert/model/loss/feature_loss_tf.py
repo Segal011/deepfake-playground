@@ -8,7 +8,7 @@ from typing import Any, Callable, Dict, Optional, List, Tuple
 # Ignore linting errors from Tensorflow's thoroughly broken import system
 import tensorflow as tf
 from tensorflow.keras import applications as kapp  # pylint:disable=import-error
-from tensorflow.keras.layers import Dropout, Conv2D, Input, Layer, Resizing  # noqa,pylint:disable=no-name-in-module,import-error
+from tensorflow.keras.layers import Dropout, Conv2D, Input, Layer#, Resizing  # noqa,pylint:disable=no-name-in-module,import-error
 from tensorflow.keras.models import Model  # pylint:disable=no-name-in-module,import-error
 import tensorflow.keras.backend as K  # pylint:disable=no-name-in-module,import-error
 
@@ -359,7 +359,8 @@ class LPIPSLoss():  # pylint:disable=too-few-public-methods
             value across the height, width axes.
         """
         if self._spatial:
-            return Resizing(*output_dims, interpolation="bilinear")(inputs)
+            print("REEEEE")
+        #     return Resizing(*output_dims, interpolation="bilinear")(inputs)
         return K.mean(inputs, axis=(1, 2), keepdims=True)
 
     def __call__(self, y_true: tf.Tensor, y_pred: tf.Tensor) -> tf.Tensor:

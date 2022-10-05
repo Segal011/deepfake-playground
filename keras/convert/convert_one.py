@@ -1,11 +1,8 @@
 #!/usr/bin python3
 """ Main entry point to the convert process of FaceSwap """
 
-import json
 import logging
 import os
-from importlib import import_module
-
 import numpy as np
 
 from convert.converter import Converter
@@ -14,47 +11,30 @@ from convert.align import AlignedFace
 from convert.image import ImagesLoader
 from convert.utils import FaceswapError, get_backend, get_folder
 
+
 logging.basicConfig()
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-class Convert():  # pylint:disable=too-few-public-methods
-    """ The Faceswap Face Conversion Process.
 
-    The conversion process is responsible for swapping the faces on source frames with the output
-    from a trained model.
-
-    It leverages a series of user selected post-processing plugins, executed from
-    :class:`lib.convert.Converter`.
-
-    The convert process is self contained and should not be referenced by any other scripts, so it
-    contains no public properties.
-
-    Parameters
-    ----------
-    arguments: :class:`argparse.Namespace`
-        The arguments to be passed to the convert process as generated from Faceswap's command
-        line arguments
-    """
+class Convert:
     def __init__(self, arguments):
         logger.debug("Initializing %s: (args: %s)", self.__class__.__name__, arguments)
+        # self._args = arguments
         self._args = arguments
-
-        # self._patch_threads = None
-        self._alignments = Alignments(self._args, False, False) #self._images.is_video)
+        self._args.on_the_fly = True
+        self._alignments = Alignments(self._args)
 
         self._images = ImagesLoader(self._args.input_dir, self._alignments)
         self._predictor = Predict(self._images.loaded_images, arguments)
         self._validate()
         get_folder(self._args.output_dir)
-        configfile = self._args.configfile if hasattr(self._args, "configfile") else None
 
         self._converter = Converter(self._predictor.output_size,
                                     self._predictor.coverage_ratio,
                                     self._predictor.centering,
-                                    arguments,
-                                    configfile=configfile)
+                                    arguments)
 
         logger.debug("Initialized %s", self.__class__.__name__)
 
@@ -77,29 +57,15 @@ class Convert():  # pylint:disable=too-few-public-methods
 
         """
 
-        if (self._args.on_the_fly and
-                self._args.mask_type not in ("none", "extended", "components")):
-            logger.warning("You have selected an incompatible mask type ('%s') for On-The-Fly "
-                           "conversion. Switching to 'extended'", self._args.mask_type)
-            self._args.mask_type = "extended"
+        # if (self._args.on_the_fly and
+        #         self._args.mask_type not in ("none", "extended", "components")):
+        #     logger.warning("You have selected an incompatible mask type ('%s') for On-The-Fly "
+        #                    "conversion. Switching to 'extended'", self._args.mask_type)
+        #     self._args.mask_type = "extended"
 
-        if (not self._args.on_the_fly and
-                self._args.mask_type not in ("none", "predicted") and
-                not self._alignments.mask_is_valid(self._args.mask_type)):
+        if not self._alignments.mask_is_valid("extended"):
             raise FaceswapError()
 
-        if self._args.mask_type == "predicted" and not self._predictor.has_predicted_mask:
-            available_masks = [k for k, v in self._alignments.mask_summary.items()
-                               if k != "none" and v == self._alignments.faces_count]
-            if not available_masks:
-                msg = ("Predicted Mask selected, but the model was not trained with a mask and no "
-                       "masks are stored in the Alignments File.\nYou should generate the "
-                       "required masks with the Mask Tool or set the Mask Type to `none`.")
-                raise FaceswapError(msg)
-            mask_type = available_masks[0]
-            logger.warning("Predicted Mask selected, but the model was not trained with a "
-                           "mask. Selecting first available mask: '%s'", mask_type)
-            self._args.mask_type = mask_type
 
     def process(self):
         """ The entry point for triggering the Conversion Process.
@@ -108,35 +74,28 @@ class Convert():  # pylint:disable=too-few-public-methods
         """
         logger.debug("Starting Conversion")
         try:
-            self._convert_images()
+
+            logger.debug("Converting images")
+            item = self._predictor.predicted_face
+            images = self._converter.process(item)
+            for name, image in images.items():
+                file_name = name.replace(self._args.input_dir, self._args.output_dir)
+
+                logger.info("Outputting: (filename: '%s'", name)  # type:ignore
+                try:
+                    with open(file_name, "wb") as outfile:
+                        outfile.write(image[0])
+                except Exception as err:  # pylint: disable=broad-except
+                    logger.error("Failed to save image '%s'. Original Error: %s", file_name, err)
+
             finalize(1,
                      self._predictor.faces_count,
                      self._predictor.verify_output)
             logger.debug("Completed Conversion")
-        except MemoryError as err:
-            msg = ("Faceswap ran out of RAM running convert. Conversion is very system RAM "
-                   "heavy, so this can happen in certain circumstances when you have a lot of "
-                   "cpus but not enough RAM to support them all."
-                   "\nYou should lower the number of processes in use by either setting the "
-                   "'singleprocess' flag (-sp) or lowering the number of parallel jobs (-j).")
-            raise FaceswapError(msg) from err
+        except Exception as err:
+            raise FaceswapError(str(err))
 
-    def _convert_images(self):
-        """ Start the multi-threaded patching process, monitor all threads for errors and join on
-        completion. """
-        logger.debug("Converting images")
-        item = self._predictor.predicted_face
-        images = self._converter.process(item)
-        for name, image in images.items():
-            fname = name.replace(self._args.input_dir, self._args.output_dir)
 
-            logger.info("Outputting: (filename: '%s'", name)  # type:ignore
-            try:
-                with open(fname, "wb") as outfile:
-                    outfile.write(image[0])
-            except Exception as err:  # pylint: disable=broad-except
-                logger.error("Failed to save image '%s'. Original Error: %s", fname, err)
-        logger.debug("Converted images")
 
 
 class Predict():
@@ -161,7 +120,7 @@ class Predict():
         self._verify_output = False
 
         self._model = self._load_model()
-        self._sizes = self._get_io_sizes()
+        self._sizes =  self._get_io_sizes()
         self._coverage_ratio = self._model.coverage_ratio
         self._centering = self._model.config["centering"]
 
@@ -175,16 +134,6 @@ class Predict():
         """ :class:`~lib.multithreading.MultiThread`: The thread that is running the prediction
         function from the Faceswap model. """
         return self._thread
-
-    # @property
-    # def in_queue(self):
-    #     """ :class:`queue.Queue`: The input queue to the predictor. """
-    #     return self._in_queue
-
-    # @property
-    # def out_queue(self):
-    #     """ :class:`queue.Queue`: The output queue from the predictor. """
-    #     return self._out_queue
 
     @property
     def faces_count(self):
@@ -244,80 +193,15 @@ class Predict():
         model_dir = get_folder(self._args.model_dir, make_folder=False)
         if not model_dir:
             raise FaceswapError(f"{self._args.model_dir} does not exist.")
-        # trainer = self._get_model_name(model_dir)
-        # model = import_model("model", trainer, False)
-        name = self._get_model_name(model_dir).replace("-", "_")
-        ttl = "convert.model".split(".")[-1].title()
-        attr ="convert.model"
-        mod = ".".join((attr, name))
-        module = import_module(mod)
-        model = getattr(module, ttl)(model_dir, self._args, predict=True)
+
+        from convert.model.lightweight import Model
+        #TODO add model to arguments
+        # model = self._args.model_class(model_dir, self._args, predict=True)
+        model = Model(model_dir, self._args, predict=True)
 
         model.build()
         logger.debug("Loaded Model")
         return model
-
-    def _get_model_name(self, model_dir):
-        """ Return the name of the Faceswap model used.
-
-        If a "trainer" option has been selected in the command line arguments, use that value,
-        otherwise retrieve the name of the model from the model's state file.
-
-        Parameters
-        ----------
-        model_dir: str
-            The folder that contains the trained Faceswap model
-
-        Returns
-        -------
-        str
-            The name of the Faceswap model being used.
-
-        """
-        if hasattr(self._args, "trainer") and self._args.trainer:
-            logger.debug("Trainer name provided: '%s'", self._args.trainer)
-            return self._args.trainer
-
-        statefile = [fname for fname in os.listdir(str(model_dir))
-                     if fname.endswith("_state.json")]
-        if len(statefile) != 1:
-            raise FaceswapError("There should be 1 state file in your model folder. {} were "
-                                "found. Specify a trainer with the '-t', '--trainer' "
-                                "option.".format(len(statefile)))
-        statefile = os.path.join(str(model_dir), statefile[0])
-
-        # state = self._serializer.load(statefile)
-        try:
-            with open(statefile, "rb") as s_file:
-                data = s_file.read()
-                logger.debug("stored data type: %s", type(data))
-                state = json.loads(data.decode("utf-8"))
-
-        except IOError as err:
-            msg = f"Error reading from '{statefile}': {err.strerror}"
-            raise FaceswapError(msg) from err
-        trainer = state.get("name", None)
-
-        if not trainer:
-            raise FaceswapError("Trainer name could not be read from state file. "
-                                "Specify a trainer with the '-t', '--trainer' option.")
-        logger.debug("Trainer from state file: '%s'", trainer)
-        return trainer
-
-    # def _launch_predictor(self):
-    #     """ Launch the prediction process in a background thread.
-
-    #     Starts the prediction thread and returns the thread.
-
-    #     Returns
-    #     -------
-    #     :class:`~lib.multithreading.MultiThread`
-    #         The started Faceswap model prediction thread.
-    #     """
-    #     thread = MultiThread(self._predict_faces, thread_count=1)
-    #     thread.start()
-    #     return thread
-
 
     def _predict_face(self, item):
         """ Run Prediction on the Faceswap model in a background thread.
@@ -328,8 +212,7 @@ class Predict():
         faces_seen = 0
         consecutive_no_faces = 0
         batch = list()
-        is_amd = get_backend() == "amd"
-    
+
         item = item[0]
         logger.info("Got from queue: '%s'", item["filename"])
         faces_count = len(item["detected_faces"])
@@ -353,7 +236,7 @@ class Predict():
                         len(batch), faces_seen)
 
         if faces_seen != 0:
-            feed_faces = self._compile_feed_faces(item["feed_faces"])
+            feed_faces = np.stack([feed_face.face[..., :3] for feed_face in item["feed_faces"]]) / 255.0
             predicted = self._predict(feed_faces)
         else:
             predicted = list()
@@ -362,6 +245,7 @@ class Predict():
             item["swapped_faces"] = np.array(list())
         else:
             item["swapped_faces"] = predicted[0:len(item["detected_faces"])]
+
 
 
         logger.debug("Load queue complete")
@@ -405,25 +289,6 @@ class Predict():
         item["reference_faces"] = reference_faces
         logger.info("Loaded aligned faces: '%s'", item["filename"])
 
-    @staticmethod
-    def _compile_feed_faces(feed_faces):
-        """ Compile a batch of faces for feeding into the Predictor.
-
-        Parameters
-        ----------
-        feed_faces: list
-            List of :class:`~lib.align.AlignedFace` objects sized for feeding into the model
-
-        Returns
-        -------
-        :class:`numpy.ndarray`
-            A batch of faces ready for feeding into the Faceswap model.
-        """
-        logger.info("Compiling feed face. Batchsize: %s", len(feed_faces))
-        retval = np.stack([feed_face.face[..., :3] for feed_face in feed_faces]) / 255.0
-        logger.info("Compiled Feed faces. Shape: %s", retval.shape)
-        return retval
-
     def _predict(self, feed_faces):
         """ Run the Faceswap models' prediction function.
 
@@ -445,22 +310,13 @@ class Predict():
         if self._model.color_order.lower() == "rgb":
             feed_faces = feed_faces[..., ::-1]
 
-        feed = [feed_faces]
-        logger.info("Input shape(s): %s", [item.shape for item in feed])
-
-        predicted = self._model.model.predict(feed, verbose=0)
-        predicted = predicted if isinstance(predicted, list) else [predicted]
-
+        predicted = self._model.model.predict([feed_faces], verbose=0)
         if self._model.color_order.lower() == "rgb":
-            predicted[0] = predicted[0][..., ::-1]
+            predicted = predicted[..., ::-1]
 
         logger.info("Output shape(s): %s", [predict.shape for predict in predicted])
 
-        # Only take last output(s)
-        if predicted[-1].shape[-1] == 1:  # Merge mask to alpha channel
-            predicted = np.concatenate(predicted[-2:], axis=-1).astype("float32")
-        else:
-            predicted = predicted[-1].astype("float32")
+        predicted = predicted.astype("float32")
 
         logger.info("Final shape: %s", predicted.shape)
         return predicted

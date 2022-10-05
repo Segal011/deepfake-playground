@@ -291,7 +291,7 @@ class ModelBase():
             if self._io.model_exists:
                 model = self._io._load()  # pylint:disable=protected-access
                 if self._is_predict:
-                    inference = _Inference(model, self._args.swap_model)
+                    inference = _Inference(model, False)#self._args.swap_model)
                     self._model = inference.model
                 else:
                     self._model = model

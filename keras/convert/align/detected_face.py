@@ -2,9 +2,12 @@
 """ Face and landmarks detection for faceswap.py """
 import logging
 from zlib import compress, decompress
-
+import dlib
 import cv2
 import numpy as np
+from imutils import face_utils
+
+# from convert.dlib_face_detector import DlibDetectedFace
 
 # from convert.image import read_image
 
@@ -17,62 +20,46 @@ def read_image(filename):
     logger.info("Loaded image: '%s'.", filename)
     return retval
 
-    
+def parse_parts(landmarks):
+    """ Extended face hull mask """
+    # mid points between the side of face and eye point
+    ml_pnt = (landmarks[36] + landmarks[0]) // 2
+    mr_pnt = (landmarks[16] + landmarks[45]) // 2
+
+    # mid points between the mid points and eye
+    ql_pnt = (landmarks[36] + ml_pnt) // 2
+    qr_pnt = (landmarks[45] + mr_pnt) // 2
+
+    # Top of the eye arrays
+    bot_l = np.array((ql_pnt, landmarks[36], landmarks[37], landmarks[38], landmarks[39]))
+    bot_r = np.array((landmarks[42], landmarks[43], landmarks[44], landmarks[45], qr_pnt))
+
+    # Eyebrow arrays
+    top_l = landmarks[17:22]
+    top_r = landmarks[22:27]
+
+    # Adjust eyebrow arrays
+    landmarks[17:22] = top_l + ((top_l - bot_l) // 2)
+    landmarks[22:27] = top_r + ((top_r - bot_r) // 2)
+
+    r_jaw = (landmarks[0:9], landmarks[17:18])
+    l_jaw = (landmarks[8:17], landmarks[26:27])
+    r_cheek = (landmarks[17:20], landmarks[8:9])
+    l_cheek = (landmarks[24:27], landmarks[8:9])
+    nose_ridge = (landmarks[19:25], landmarks[8:9],)
+    r_eye = (landmarks[17:22],
+             landmarks[27:28],
+             landmarks[31:36],
+             landmarks[8:9])
+    l_eye = (landmarks[22:27],
+             landmarks[27:28],
+             landmarks[31:36],
+             landmarks[8:9])
+    nose = (landmarks[27:31], landmarks[31:36])
+    parts = [r_jaw, l_jaw, r_cheek, l_cheek, nose_ridge, r_eye, l_eye, nose]
+    return parts
+
 class DetectedFace():
-    """ Detected face and landmark information
-
-    Holds information about a detected face, it's location in a source image
-    and the face's 68 point landmarks.
-
-    Methods for aligning a face are also callable from here.
-
-    Parameters
-    ----------
-    image: numpy.ndarray, optional
-        Original frame that holds this face. Optional (not required if just storing coordinates)
-    x: int
-        The left most point (in pixels) of the face's bounding box as discovered in
-        :mod:`plugins.extract.detect`
-    w: int
-        The width (in pixels) of the face's bounding box as discovered in
-        :mod:`plugins.extract.detect`
-    y: int
-        The top most point (in pixels) of the face's bounding box as discovered in
-        :mod:`plugins.extract.detect`
-    h: int
-        The height (in pixels) of the face's bounding box as discovered in
-        :mod:`plugins.extract.detect`
-    landmarks_xy: list
-        The 68 point landmarks as discovered in :mod:`plugins.extract.align`. Should be a ``list``
-        of 68 `(x, y)` ``tuples`` with each of the landmark co-ordinates.
-    mask: dict
-        The generated mask(s) for the face as generated in :mod:`plugins.extract.mask`. Must be a
-        dict of {**name** (`str`): :class:`Mask`}.
-
-    Attributes
-    ----------
-    image: numpy.ndarray, optional
-        This is a generic image placeholder that should not be relied on to be holding a particular
-        image. It may hold the source frame that holds the face, a cropped face or a scaled image
-        depending on the method using this object.
-    x: int
-        The left most point (in pixels) of the face's bounding box as discovered in
-        :mod:`plugins.extract.detect`
-    w: int
-        The width (in pixels) of the face's bounding box as discovered in
-        :mod:`plugins.extract.detect`
-    y: int
-        The top most point (in pixels) of the face's bounding box as discovered in
-        :mod:`plugins.extract.detect`
-    h: int
-        The height (in pixels) of the face's bounding box as discovered in
-        :mod:`plugins.extract.detect`
-    landmarks_xy: list
-        The 68 point landmarks as discovered in :mod:`plugins.extract.align`.
-    mask: dict
-        The generated mask(s) for the face as generated in :mod:`plugins.extract.mask`. Is a
-        dict of {**name** (`str`): :class:`Mask`}.
-    """
     def __init__(self, image=None, x=None, w=None, y=None, h=None, landmarks_xy=None, mask=None,
                  filename=None):
         logger.info("Initializing %s: (image: %s, x: %s, w: %s, y: %s, h:%s, landmarks_xy: %s, "
@@ -82,11 +69,18 @@ class DetectedFace():
                      x, w, y, h, landmarks_xy,
                      {k: v.shape for k, v in mask} if mask is not None else mask,
                      filename)
+        self.detector = dlib.get_frontal_face_detector() # TODO pabandyt ir cnn_face_detection_model
+        self.predictor = dlib.shape_predictor(
+            r"C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\shape_predictor_68_face_landmarks.dat")
+
+
         self.image = image
         self.x = x  # pylint:disable=invalid-name
         self.w = w  # pylint:disable=invalid-name
         self.y = y  # pylint:disable=invalid-name
         self.h = h  # pylint:disable=invalid-name
+
+        self.shape = None
         self.landmarks_xy = landmarks_xy
         self.mask = dict() if mask is None else mask
 
@@ -96,25 +90,51 @@ class DetectedFace():
     @property
     def left(self):
         """int: Left point (in pixels) of face detection bounding box within the parent image """
-        return self.x
+        return self.shape.left()
 
     @property
     def top(self):
         """int: Top point (in pixels) of face detection bounding box within the parent image """
-        return self.y
+        return self.shape.top()
 
     @property
     def right(self):
         """int: Right point (in pixels) of face detection bounding box within the parent image """
-        return self.x + self.w
+        return self.shape.right()
 
     @property
     def bottom(self):
         """int: Bottom point (in pixels) of face detection bounding box within the parent image """
-        return self.y + self.h
+        return self.shape.bottom()
 
 
-    def from_alignment(self, alignment, image=None, with_thumb=False):
+    def detect_from_image(self, image):
+        # image = self.tensor_or_path_to_ndarray(image)
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
+        detected_faces = self.detector(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY))
+
+        found_faces = []
+        for face in detected_faces:
+            shape = self.predictor(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY), face)
+            detected_face = dict(
+                shape=[face.left(), face.top(), face.right(), face.bottom()],
+                landmarks=[(shape.part(n).x, shape.part(n).y) for n in range(0, 68)]
+            )
+
+            massk = np.zeros((1, 128, 128, 1), dtype="float32")
+
+            parts = parse_parts(np.array(detected_face['landmarks']))
+            for item in parts:
+                item = np.rint(np.concatenate(item)).astype("int32")
+                hull = cv2.convexHull(item)
+                cv2.fillConvexPoly(massk, hull, 1.0, lineType=cv2.LINE_AA)
+
+            detected_face['mask'] = massk
+            found_faces.append(detected_face)
+
+        return found_faces[0]
+    def from_image(self, image):
         """ Set the attributes of this class from an alignments file and optionally load the face
         into the ``image`` attribute.
 
@@ -137,6 +157,59 @@ class DetectedFace():
 
         logger.info("Creating from alignment: (alignment: %s, has_image: %s)",
                      alignment, bool(image is not None))
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+
+        detected_faces = self.detector(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY))
+
+        for face in detected_faces:
+            self.shape = self.predictor(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY), face)
+            self.image = image[face.top(): face.bottom(), face.left(): face.right()]
+            self.landmarks_xy = np.array([[float(self.shape.part(n).x), float(self.shape.part(n).y)] for n in range(0, 68)])
+
+            mask = np.zeros(image.shape[:2], np.uint8)
+            mask_shape = face_utils.shape_to_np(self.shape)
+            mask_shape = cv2.convexHull(mask_shape)
+            cv2.drawContours(mask, [mask_shape], -1, 255, -1)
+            mask = mask / 255.0
+            self.mask = np.expand_dims(mask, axis=-1)
+
+            # detected_face = dict(
+            #     shape=[face.left(), face.top(), face.right(), face.bottom()],
+            #     landmarks=,
+            #     mask=mask
+            # )
+            break
+
+        # # faceeee = DlibDetectedFace().detect_from_image(image)
+        # # Manual tool and legacy alignments will not have a mask
+        # self.aligned = None
+        # self.mask = faceeee['mask']
+        #
+        # if image is not None and image.any():
+
+    def from_alignment(self, alignment, image=None):
+        """ Set the attributes of this class from an alignments file and optionally load the face
+        into the ``image`` attribute.
+
+        Parameters
+        ----------
+        alignment: dict
+            A dictionary entry for a face from an alignments file containing the keys
+            ``x``, ``w``, ``y``, ``h``, ``landmarks_xy``.
+            Optionally the key ``thumb`` will be provided. This is for use in the manual tool and
+            contains the compressed jpg thumbnail of the face to be allocated to :attr:`thumbnail.
+            Optionally the key ``mask`` will be provided, but legacy alignments will not have
+            this key.
+        image: numpy.ndarray, optional
+            If an image is passed in, then the ``image`` attribute will
+            be set to the cropped face based on the passed in bounding box co-ordinates
+        with_thumb: bool, optional
+            Whether to load the jpg thumbnail into the detected face object, if provided.
+            Default: ``False``
+        """
+
+        logger.info("Creating from alignment: (alignment: %s, has_image: %s)",
+                    alignment, bool(image is not None))
         self.x = alignment["x"]
         self.w = alignment["w"]
         self.y = alignment["y"]
@@ -146,7 +219,6 @@ class DetectedFace():
             landmarks = np.array(landmarks, dtype="float32")
         self.landmarks_xy = landmarks.copy()
 
-
         # Manual tool and legacy alignments will not have a mask
         self.aligned = None
 
@@ -155,12 +227,10 @@ class DetectedFace():
             for name, mask_dict in alignment["mask"].items():
                 self.mask[name] = Mask()
                 self.mask[name].from_dict(mask_dict)
-        if image is not None and image.any():
-            self.image = image[self.top: self.bottom,
-                           self.left: self.right]
+
         logger.info("Created from alignment: (x: %s, w: %s, y: %s. h: %s, "
-                     "landmarks: %s, mask: %s)",
-                     self.x, self.w, self.y, self.h, self.landmarks_xy, self.mask)
+                    "landmarks: %s, mask: %s)",
+                    self.x, self.w, self.y, self.h, self.landmarks_xy, self.mask)
 
 
 class Mask():
@@ -192,7 +262,7 @@ class Mask():
         self.stored_size = storage_size
         self.stored_centering = storage_centering
 
-        self._mask = None
+        self.mask = None
         self._affine_matrix = None
         self._interpolator = None
 
@@ -203,28 +273,28 @@ class Mask():
         self.set_blur_and_threshold()
         logger.info("Initialized: %s", self.__class__.__name__)
 
-    @property
-    def mask(self):
-        """ numpy.ndarray: The mask at the size of :attr:`stored_size` with any requested blurring,
-        threshold amount and centering applied."""
-        mask = self.stored_mask
-        if self._threshold != 0.0 or self._blur["kernel"] != 0:
-            mask = mask.copy()
-        if self._threshold != 0.0:
-            mask[mask < self._threshold] = 0.0
-            mask[mask > 255.0 - self._threshold] = 255.0
-        # if self._blur["kernel"] != 0:
-        #     mask = BlurMask(self._blur["type"],
-        #                     mask,
-        #                     self._blur["kernel"],
-        #                     passes=self._blur["passes"]).blurred
-        if self._sub_crop["size"]:  # Crop the mask to the given centering
-            out = np.zeros((self._sub_crop["size"], self._sub_crop["size"], 1), dtype=mask.dtype)
-            slice_in, slice_out = self._sub_crop["slice_in"], self._sub_crop["slice_out"]
-            out[slice_out[0], slice_out[1], :] = mask[slice_in[0], slice_in[1], :]
-            mask = out
-        logger.info("mask shape: %s", mask.shape)
-        return mask
+    # @property
+    # def mask(self):
+    #     """ numpy.ndarray: The mask at the size of :attr:`stored_size` with any requested blurring,
+    #     threshold amount and centering applied."""
+    #     mask = self.stored_mask
+    #     if self._threshold != 0.0 or self._blur["kernel"] != 0:
+    #         mask = mask.copy()
+    #     if self._threshold != 0.0:
+    #         mask[mask < self._threshold] = 0.0
+    #         mask[mask > 255.0 - self._threshold] = 255.0
+    #     # if self._blur["kernel"] != 0:
+    #     #     mask = BlurMask(self._blur["type"],
+    #     #                     mask,
+    #     #                     self._blur["kernel"],
+    #     #                     passes=self._blur["passes"]).blurred
+    #     if self._sub_crop["size"]:  # Crop the mask to the given centering
+    #         out = np.zeros((self._sub_crop["size"], self._sub_crop["size"], 1), dtype=mask.dtype)
+    #         slice_in, slice_out = self._sub_crop["slice_in"], self._sub_crop["slice_out"]
+    #         out[slice_out[0], slice_out[1], :] = mask[slice_in[0], slice_in[1], :]
+    #         mask = out
+    #     logger.info("mask shape: %s", mask.shape)
+    #     return mask
 
     @property
     def stored_mask(self):

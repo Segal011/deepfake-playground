@@ -68,46 +68,14 @@ class Alignments():
         ``True`` if the input to the process is a video, ``False`` if it is a folder of images.
         Default: False
     """
-    def __init__(self, arguments, is_extract, input_is_video=False):
-        logger.debug("Initializing %s: (is_extract: %s, input_is_video: %s)",
-                     self.__class__.__name__, is_extract, input_is_video)
+    def __init__(self, arguments):
+        # logger.debug("Initializing %s: (is_extract: %s, input_is_video: %s)",
+        #              self.__class__.__name__, is_extract, input_is_video)
         self._args = arguments
-        self._is_extract = is_extract
-        folder, filename = self._set_folder_filename(input_is_video)
-        self._file = self._get_location(folder, filename)
+        self._file = os.path.join(str(self._args.input_dir), "{}.{}".format(os.path.splitext("alignments")[0], 'fsa'))
         self._data = self._load()
         logger.debug("Initialized %s", self.__class__.__name__)
 
-    def _set_folder_filename(self, input_is_video):
-        """ Return the folder and the filename for the alignments file.
-
-        If the input is a video, the alignments file will be stored in the same folder
-        as the video, with filename `<videoname>_alignments`.
-
-        If the input is a folder of images, the alignments file will be stored in folder with
-        the images and just be called 'alignments'
-
-        Parameters
-        ----------
-        input_is_video: bool, optional
-            ``True`` if the input to the process is a video, ``False`` if it is a folder of images.
-
-        Returns
-        -------
-        folder: str
-            The folder where the alignments file will be stored
-        filename: str
-            The filename of the alignments file
-        """
-        if self._args.alignments_path:
-            logger.debug("Alignments File provided: '%s'", self._args.alignments_path)
-            folder, filename = os.path.split(str(self._args.alignments_path))
-        else:
-            logger.debug("Alignments from Input Folder: '%s'", self._args.input_dir)
-            folder = str(self._args.input_dir)
-            filename = "alignments"
-        logger.debug("Setting Alignments: (folder: '%s' filename: '%s')", folder, filename)
-        return folder, filename
 
     def _load(self):
         """ Override the parent :func:`~lib.align.Alignments._load` to handle skip existing
@@ -124,11 +92,12 @@ class Alignments():
         """
         data = dict()
         if not self.have_alignments_file:
+
+            # TODO create alignments file
+
+
             return data
         logger.debug("Loading alignments")
-        if not self.have_alignments_file:
-            raise FaceswapError("Error: Alignments file not found at "
-                                "{}".format(self._file))
 
         logger.info("Reading alignments from: '%s'", self._file)
         try:
@@ -175,27 +144,6 @@ class Alignments():
                 for key in face.get("mask", dict()):
                     masks[key] = masks.get(key, 0) + 1
         return masks
-
-    def _get_location(self, folder, filename):
-        """ Obtains the location of an alignments file.
-
-        If a legacy alignments file is provided/discovered, then the alignments file will be
-        updated to the custom ``.fsa`` format and saved.
-
-        Parameters
-        ----------
-        folder: str
-            The folder that the alignments file is located in
-        filename: str
-            The filename of the alignments file
-
-        Returns
-        -------
-        str
-            The full path to the alignments file
-        """
-        noext_name, _ = os.path.splitext(filename)
-        return os.path.join(str(folder), "{}.{}".format(noext_name, 'fsa'))
 
     def save(self):
         """ Write the contents of :attr:`data` and :attr:`_meta` to a serialized ``.fsa`` file at
@@ -258,22 +206,3 @@ class Alignments():
                       for face in val["faces"]])
         logger.debug(retval)
         return retval
-
-    # << DATA >> #
-
-    def get_faces_in_frame(self, frame_name):
-        """ Obtain the faces from :attr:`data` associated with a given frame_name.
-
-        Parameters
-        ----------
-        frame_name: str
-            The frame name to return faces for. This should be the base name of the frame, not the
-            full path
-
-        Returns
-        -------
-        list
-            The list of face dictionaries that appear within the requested frame_name
-        """
-        logger.info("Getting faces for frame_name: '%s'", frame_name)
-        return self._data.get(frame_name, dict()).get("faces", [])

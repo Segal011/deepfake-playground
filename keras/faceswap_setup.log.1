@@ -1,0 +1,634 @@
+10/05/2022 21:15:07 setup            <module>                       DEBUG    Setup called with args: ['.\\keras\\setup.py']
+10/05/2022 21:15:07 setup            _process_arguments             DEBUG    ['.\\keras\\setup.py']
+10/05/2022 21:15:07 setup            _check_permission              INFO     Running without root/admin privileges
+10/05/2022 21:15:07 setup            _check_system                  INFO     The tool provides tips for installation and installs required python packages
+10/05/2022 21:15:07 setup            _check_system                  INFO     Setup in Windows 10
+10/05/2022 21:15:07 setup            _check_python                  INFO     Installed Python: 3.10.5 64bit
+10/05/2022 21:15:07 setup            _output_runtime_info           INFO     Running in a Virtual Environment
+10/05/2022 21:15:07 setup            _output_runtime_info           INFO     Encoding: cp1252
+10/05/2022 21:15:07 setup            _upgrade_pip                   INFO     Upgrading pip...
+10/05/2022 21:15:23 setup            _upgrade_pip                   INFO     Installed pip: 22.0.4
+10/05/2022 21:15:24 setup            get_installed_packages         DEBUG    {}
+10/05/2022 21:15:24 setup            _amd_ask_enable                INFO     AMD Support: AMD GPU support is currently limited.\r\nNvidia Users MUST answer 'no' to this option.
+10/05/2022 21:15:36 setup            _amd_ask_enable                INFO     AMD Support Disabled
+10/05/2022 21:15:39 setup            _docker_ask_enable             INFO     Docker Disabled
+10/05/2022 21:15:41 setup            _cuda_ask_enable               INFO     CUDA Disabled
+10/05/2022 21:15:41 setup            _check_cuda                    DEBUG    Skipping Cuda checks as not enabled
+10/05/2022 21:15:41 setup            pip                            INFO     1. Install PIP requirements\nYou may want to execute `chcp 65001` in cmd line\nto fix Unicode issues on Windows when installing dependencies
+10/05/2022 21:15:41 setup            set_config                     INFO     Faceswap config written to: C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\keras\config\.faceswap
+10/05/2022 21:15:44 setup            get_required_packages          DEBUG    [('pywinpty', [('==', '2.0.2')]), ('tqdm', [('>=', '4.64')]), ('psutil', [('>=', '5.9.0')]), ('opencv-python', [('>=', '4.6.0.0')]), ('pillow', [('>=', '9.2.0')]), ('scikit-learn', [('>=', '1.1.0')]), ('fastcluster', [('>=', '1.2.6')]), ('matplotlib', [('>=', '3.5.1')]), ('imageio', [('>=', '2.19.3')]), ('imageio-ffmpeg', [('>=', '0.4.7')]), ('ffmpy', [('>=', '0.3.0')]), ('nvidia-ml-py', [('>=', '11.515'), ('<', '300')]), ('tensorflow-probability', [('<', '0.17')]), ('typing-extensions', [('>=', '4.0.0')]), ('pywin32', [('>=', '228')]), ('numpy', [('>=', '1.22.0')]), ('tensorflow', [('>=', '2.7.0'), ('<', '2.10.0')])]
+10/05/2022 21:15:44 setup            _check_missing_dep             DEBUG    [('numpy', [('>=', '1.22.0')]), ('pywinpty', [('==', '2.0.2')]), ('tqdm', [('>=', '4.64')]), ('psutil', [('>=', '5.9.0')]), ('opencv-python', [('>=', '4.6.0.0')]), ('pillow', [('>=', '9.2.0')]), ('scikit-learn', [('>=', '1.1.0')]), ('fastcluster', [('>=', '1.2.6')]), ('matplotlib', [('>=', '3.5.1')]), ('imageio', [('>=', '2.19.3')]), ('imageio-ffmpeg', [('>=', '0.4.7')]), ('ffmpy', [('>=', '0.3.0')]), ('nvidia-ml-py', [('>=', '11.515'), ('<', '300')]), ('tensorflow-probability', [('<', '0.17')]), ('typing-extensions', [('>=', '4.0.0')]), ('pywin32', [('>=', '228')]), ('tensorflow', [('>=', '2.7.0'), ('<', '2.10.0')])]
+10/05/2022 21:15:44 setup            __init__                       INFO     Installing Required Python Packages. This may take some time...
+10/05/2022 21:15:44 setup            _subproc_installer             INFO     Installing pywinpty==2.0.2
+10/05/2022 21:15:44 setup            _subproc_installer             DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-m', 'pip', 'install', '--no-cache-dir', 'pywinpty==2.0.2']
+10/05/2022 21:15:44 setup            _subproc_installer             DEBUG    Collecting pywinpty==2.0.2
+10/05/2022 21:15:45 setup            _subproc_installer             DEBUG      Downloading pywinpty-2.0.2-cp310-none-win_amd64.whl (1.4 MB)
+10/05/2022 21:15:45 setup            _subproc_installer             DEBUG         ---------------------------------------- 1.4/1.4 MB 8.9 MB/s eta 0:00:00
+10/05/2022 21:15:45 setup            _subproc_installer             DEBUG    Installing collected packages: pywinpty
+10/05/2022 21:15:45 setup            _subproc_installer             DEBUG    Successfully installed pywinpty-2.0.2
+10/05/2022 21:15:45 setup            _subproc_installer             DEBUG    Package: pywinpty==2.0.2, returncode: 0
+10/05/2022 21:15:45 setup            _pywinpty_installer            INFO     Installing numpy>=1.22.0
+10/05/2022 21:15:45 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'numpy>=1.22.0'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir numpy>=1.22.0'
+10/05/2022 21:15:46 setup            _pywinpty_installer            DEBUG    Collecting numpy>=1.22.0
+10/05/2022 21:15:46 setup            _pywinpty_installer            DEBUG      Downloading numpy-1.23.3-cp310-cp310-win_amd64.whl (14.6 MB)
+10/05/2022 21:15:46 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/14.6 MB ? eta -:--:--
+10/05/2022 21:15:46 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.1/14.6 MB 1.9 MB/s eta 0:00:08
+10/05/2022 21:15:46 setup            _pywinpty_installer            DEBUG          --------------------------------------- 0.2/14.6 MB 3.0 MB/s eta 0:00:05
+10/05/2022 21:15:46 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 0.7/14.6 MB 5.4 MB/s eta 0:00:03
+10/05/2022 21:15:46 setup            _pywinpty_installer            DEBUG         ---- ----------------------------------- 1.6/14.6 MB 8.4 MB/s eta 0:00:02
+10/05/2022 21:15:46 setup            _pywinpty_installer            DEBUG         --------- ------------------------------ 3.4/14.6 MB 14.2 MB/s eta 0:00:01
+10/05/2022 21:15:47 setup            _pywinpty_installer            DEBUG         --------------- ------------------------ 5.5/14.6 MB 19.5 MB/s eta 0:00:01
+10/05/2022 21:15:47 setup            _pywinpty_installer            DEBUG         ------------------- -------------------- 7.1/14.6 MB 21.7 MB/s eta 0:00:01
+10/05/2022 21:15:47 setup            _pywinpty_installer            DEBUG         ------------------------- -------------- 9.4/14.6 MB 25.0 MB/s eta 0:00:01
+10/05/2022 21:15:47 setup            _pywinpty_installer            DEBUG         ------------------------------- -------- 11.7/14.6 MB 38.5 MB/s eta 0:00:01
+10/05/2022 21:15:47 setup            _pywinpty_installer            DEBUG         -------------------------------------- - 14.0/14.6 MB 46.7 MB/s eta 0:00:01
+10/05/2022 21:15:47 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 14.6/14.6 MB 46.7 MB/s eta 0:00:00
+10/05/2022 21:15:47 setup            _pywinpty_installer            DEBUG    Installing collected packages: numpy
+10/05/2022 21:15:52 setup            _pywinpty_installer            DEBUG    Successfully installed numpy-1.23.3
+10/05/2022 21:15:53 setup            _pywinpty_installer            DEBUG    Package: numpy>=1.22.0, returncode: 0
+10/05/2022 21:15:53 setup            _pywinpty_installer            INFO     Installing tqdm>=4.64
+10/05/2022 21:15:53 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'tqdm>=4.64'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir tqdm>=4.64'
+10/05/2022 21:15:54 setup            _pywinpty_installer            DEBUG    Collecting tqdm>=4.64
+10/05/2022 21:15:54 setup            _pywinpty_installer            DEBUG      Downloading tqdm-4.64.1-py2.py3-none-any.whl (78 kB)
+10/05/2022 21:15:54 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/78.5 kB ? eta -:--:--
+10/05/2022 21:15:54 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 78.5/78.5 kB 2.2 MB/s eta 0:00:00
+10/05/2022 21:15:54 setup            _pywinpty_installer            DEBUG    Collecting colorama
+10/05/2022 21:15:54 setup            _pywinpty_installer            DEBUG      Downloading colorama-0.4.5-py2.py3-none-any.whl (16 kB)
+10/05/2022 21:15:54 setup            _pywinpty_installer            DEBUG    Installing collected packages: colorama, tqdm
+10/05/2022 21:15:54 setup            _pywinpty_installer            DEBUG    Successfully installed colorama-0.4.5 tqdm-4.64.1
+10/05/2022 21:15:56 setup            _pywinpty_installer            DEBUG    Package: tqdm>=4.64, returncode: 0
+10/05/2022 21:15:56 setup            _pywinpty_installer            INFO     Installing psutil>=5.9.0
+10/05/2022 21:15:56 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'psutil>=5.9.0'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir psutil>=5.9.0'
+10/05/2022 21:15:57 setup            _pywinpty_installer            DEBUG    Collecting psutil>=5.9.0
+10/05/2022 21:15:57 setup            _pywinpty_installer            DEBUG      Downloading psutil-5.9.2-cp310-cp310-win_amd64.whl (245 kB)
+10/05/2022 21:15:57 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/245.9 kB ? eta -:--:--
+10/05/2022 21:15:57 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 245.9/245.9 kB 3.8 MB/s eta 0:00:00
+10/05/2022 21:15:57 setup            _pywinpty_installer            DEBUG    Installing collected packages: psutil
+10/05/2022 21:15:57 setup            _pywinpty_installer            DEBUG    Successfully installed psutil-5.9.2
+10/05/2022 21:15:58 setup            _pywinpty_installer            DEBUG    Package: psutil>=5.9.0, returncode: 0
+10/05/2022 21:15:58 setup            _pywinpty_installer            INFO     Installing opencv-python>=4.6.0.0
+10/05/2022 21:15:58 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'opencv-python>=4.6.0.0'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir opencv-python>=4.6.0.0'
+10/05/2022 21:15:59 setup            _pywinpty_installer            DEBUG    Collecting opencv-python>=4.6.0.0
+10/05/2022 21:15:59 setup            _pywinpty_installer            DEBUG      Downloading opencv_python-4.6.0.66-cp36-abi3-win_amd64.whl (35.6 MB)
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/35.6 MB ? eta -:--:--
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.1/35.6 MB 3.3 MB/s eta 0:00:11
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.4/35.6 MB 4.6 MB/s eta 0:00:08
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 1.1/35.6 MB 7.6 MB/s eta 0:00:05
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         -- ------------------------------------- 2.5/35.6 MB 13.3 MB/s eta 0:00:03
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ----- ---------------------------------- 4.8/35.6 MB 20.4 MB/s eta 0:00:02
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         -------- ------------------------------- 7.3/35.6 MB 26.0 MB/s eta 0:00:02
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ----------- ---------------------------- 9.8/35.6 MB 29.9 MB/s eta 0:00:01
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ------------- -------------------------- 12.4/35.6 MB 54.4 MB/s eta 0:00:01
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ---------------- ----------------------- 14.8/35.6 MB 54.4 MB/s eta 0:00:01
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ------------------- -------------------- 17.4/35.6 MB 50.4 MB/s eta 0:00:01
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ---------------------- ----------------- 20.2/35.6 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ------------------------- -------------- 22.8/35.6 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         --------------------------- ------------ 24.1/35.6 MB 54.7 MB/s eta 0:00:01
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ---------------------------- ----------- 25.6/35.6 MB 46.7 MB/s eta 0:00:01
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ------------------------------- -------- 28.0/35.6 MB 43.7 MB/s eta 0:00:01
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ---------------------------------- ----- 30.7/35.6 MB 43.7 MB/s eta 0:00:01
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ------------------------------------- -- 33.2/35.6 MB 43.7 MB/s eta 0:00:01
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 35.6/35.6 MB 50.3 MB/s eta 0:00:00
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: numpy>=1.17.3 in c:\users\37060\documents\github\magistras\deepfake-p
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG    layground\venv\lib\site-packages (from opencv-python>=4.6.0.0) (1.23.3)
+10/05/2022 21:16:00 setup            _pywinpty_installer            DEBUG    Installing collected packages: opencv-python
+10/05/2022 21:16:01 setup            _pywinpty_installer            DEBUG    Successfully installed opencv-python-4.6.0.66
+10/05/2022 21:16:02 setup            _pywinpty_installer            DEBUG    Package: opencv-python>=4.6.0.0, returncode: 0
+10/05/2022 21:16:02 setup            _pywinpty_installer            INFO     Installing pillow>=9.2.0
+10/05/2022 21:16:02 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'pillow>=9.2.0'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir pillow>=9.2.0'
+10/05/2022 21:16:03 setup            _pywinpty_installer            DEBUG    Collecting pillow>=9.2.0
+10/05/2022 21:16:03 setup            _pywinpty_installer            DEBUG      Downloading Pillow-9.2.0-cp310-cp310-win_amd64.whl (3.3 MB)
+10/05/2022 21:16:04 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/3.3 MB ? eta -:--:--
+10/05/2022 21:16:04 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 0.1/3.3 MB 3.2 MB/s eta 0:00:01
+10/05/2022 21:16:04 setup            _pywinpty_installer            DEBUG         ----- ---------------------------------- 0.4/3.3 MB 4.5 MB/s eta 0:00:01
+10/05/2022 21:16:04 setup            _pywinpty_installer            DEBUG         ------------ --------------------------- 1.0/3.3 MB 8.0 MB/s eta 0:00:01
+10/05/2022 21:16:04 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 3.3/3.3 MB 16.1 MB/s eta 0:00:00
+10/05/2022 21:16:04 setup            _pywinpty_installer            DEBUG    Installing collected packages: pillow
+10/05/2022 21:16:05 setup            _pywinpty_installer            DEBUG    Successfully installed pillow-9.2.0
+10/05/2022 21:16:06 setup            _pywinpty_installer            DEBUG    Package: pillow>=9.2.0, returncode: 0
+10/05/2022 21:16:06 setup            _pywinpty_installer            INFO     Installing scikit-learn>=1.1.0
+10/05/2022 21:16:06 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'scikit-learn>=1.1.0'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir scikit-learn>=1.1.0'
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG    Collecting scikit-learn>=1.1.0
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG      Downloading scikit_learn-1.1.2-cp310-cp310-win_amd64.whl (7.4 MB)
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/7.4 MB ? eta -:--:--
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.1/7.4 MB 1.7 MB/s eta 0:00:05
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 0.2/7.4 MB 3.0 MB/s eta 0:00:03
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG         ---- ----------------------------------- 0.7/7.4 MB 5.8 MB/s eta 0:00:02
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG         ----------- ---------------------------- 2.1/7.4 MB 11.1 MB/s eta 0:00:01
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG         ------------------- -------------------- 3.7/7.4 MB 15.6 MB/s eta 0:00:01
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 7.4/7.4 MB 24.7 MB/s eta 0:00:00
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: numpy>=1.17.3 in c:\users\37060\documents\github\magistras\deepfake-p
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG    layground\venv\lib\site-packages (from scikit-learn>=1.1.0) (1.23.3)
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG    Collecting threadpoolctl>=2.0.0
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG      Downloading threadpoolctl-3.1.0-py3-none-any.whl (14 kB)
+10/05/2022 21:16:07 setup            _pywinpty_installer            DEBUG    Collecting joblib>=1.0.0
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG      Downloading joblib-1.2.0-py3-none-any.whl (297 kB)
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 298.0/298.0 kB ? eta 0:00:00
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG    Collecting scipy>=1.3.2
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG      Downloading scipy-1.9.1-cp310-cp310-win_amd64.whl (38.6 MB)
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/38.6 MB ? eta -:--:--
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         -- ------------------------------------- 2.6/38.6 MB 84.2 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ----- ---------------------------------- 4.9/38.6 MB 62.8 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ------- -------------------------------- 7.1/38.6 MB 50.5 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         --------- ------------------------------ 9.4/38.6 MB 50.1 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ------------ --------------------------- 11.6/38.6 MB 50.1 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         -------------- ------------------------- 14.2/38.6 MB 46.7 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ----------------- ---------------------- 16.5/38.6 MB 46.7 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ------------------- -------------------- 18.7/38.6 MB 50.4 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         --------------------- ------------------ 21.0/38.6 MB 50.4 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ------------------------ --------------- 23.3/38.6 MB 50.4 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         -------------------------- ------------- 25.5/38.6 MB 50.4 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ---------------------------- ----------- 27.8/38.6 MB 50.4 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ------------------------------- -------- 30.4/38.6 MB 50.1 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         --------------------------------- ------ 32.7/38.6 MB 50.4 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ------------------------------------ --- 34.9/38.6 MB 46.7 MB/s eta 0:00:01
+10/05/2022 21:16:08 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 38.6/38.6 MB 50.4 MB/s eta 0:00:00
+10/05/2022 21:16:09 setup            _pywinpty_installer            DEBUG    Installing collected packages: threadpoolctl, scipy, joblib, scikit-learn
+10/05/2022 21:16:31 setup            _pywinpty_installer            DEBUG    Successfully installed joblib-1.2.0 scikit-learn-1.1.2 scipy-1.9.1 threadpoolctl-3.1.0
+10/05/2022 21:16:32 setup            _pywinpty_installer            DEBUG    Package: scikit-learn>=1.1.0, returncode: 0
+10/05/2022 21:16:32 setup            _pywinpty_installer            INFO     Installing fastcluster>=1.2.6
+10/05/2022 21:16:32 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'fastcluster>=1.2.6'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir fastcluster>=1.2.6'
+10/05/2022 21:16:33 setup            _pywinpty_installer            DEBUG    Collecting fastcluster>=1.2.6
+10/05/2022 21:16:33 setup            _pywinpty_installer            DEBUG      Downloading fastcluster-1.2.6-cp310-cp310-win_amd64.whl (36 kB)
+10/05/2022 21:16:33 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: numpy>=1.9 in c:\users\37060\documents\github\magistras\deepfake-play
+10/05/2022 21:16:33 setup            _pywinpty_installer            DEBUG    ground\venv\lib\site-packages (from fastcluster>=1.2.6) (1.23.3)
+10/05/2022 21:16:34 setup            _pywinpty_installer            DEBUG    Installing collected packages: fastcluster
+10/05/2022 21:16:34 setup            _pywinpty_installer            DEBUG    Successfully installed fastcluster-1.2.6
+10/05/2022 21:16:35 setup            _pywinpty_installer            DEBUG    Package: fastcluster>=1.2.6, returncode: 0
+10/05/2022 21:16:35 setup            _pywinpty_installer            INFO     Installing matplotlib>=3.5.1
+10/05/2022 21:16:35 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'matplotlib>=3.5.1'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir matplotlib>=3.5.1'
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG    Collecting matplotlib>=3.5.1
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG      Downloading matplotlib-3.6.0-cp310-cp310-win_amd64.whl (7.2 MB)
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/7.2 MB ? eta -:--:--
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 0.2/7.2 MB 3.1 MB/s eta 0:00:03
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG         ---- ----------------------------------- 0.8/7.2 MB 7.0 MB/s eta 0:00:01
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG         ----------- ---------------------------- 2.0/7.2 MB 13.1 MB/s eta 0:00:01
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG         ------------------------ --------------- 4.3/7.2 MB 19.8 MB/s eta 0:00:01
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 7.2/7.2 MB 27.2 MB/s eta 0:00:00
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG    Collecting pyparsing>=2.2.1
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG      Downloading pyparsing-3.0.9-py3-none-any.whl (98 kB)
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 98.3/98.3 kB ? eta 0:00:00
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG    Collecting packaging>=20.0
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG      Downloading packaging-21.3-py3-none-any.whl (40 kB)
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 40.8/40.8 kB ? eta 0:00:00
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: pillow>=6.2.0 in c:\users\37060\documents\github\magistras\deepfake-p
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG    layground\venv\lib\site-packages (from matplotlib>=3.5.1) (9.2.0)
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: numpy>=1.19 in c:\users\37060\documents\github\magistras\deepfake-pla
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG    yground\venv\lib\site-packages (from matplotlib>=3.5.1) (1.23.3)
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG    Collecting fonttools>=4.22.0
+10/05/2022 21:16:36 setup            _pywinpty_installer            DEBUG      Downloading fonttools-4.37.4-py3-none-any.whl (960 kB)
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 960.8/960.8 kB ? eta 0:00:00
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG    Collecting cycler>=0.10
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG      Downloading cycler-0.11.0-py3-none-any.whl (6.4 kB)
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG    Collecting python-dateutil>=2.7
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG      Downloading python_dateutil-2.8.2-py2.py3-none-any.whl (247 kB)
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 247.7/247.7 kB ? eta 0:00:00
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG    Collecting contourpy>=1.0.1
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG      Downloading contourpy-1.0.5-cp310-cp310-win_amd64.whl (164 kB)
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 164.1/164.1 kB ? eta 0:00:00
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG    Collecting kiwisolver>=1.0.1
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG      Downloading kiwisolver-1.4.4-cp310-cp310-win_amd64.whl (55 kB)
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 55.3/55.3 kB ? eta 0:00:00
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG    Collecting six>=1.5
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG      Downloading six-1.16.0-py2.py3-none-any.whl (11 kB)
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG    Installing collected packages: six, pyparsing, kiwisolver, fonttools, cycler, contourpy, python-date
+10/05/2022 21:16:37 setup            _pywinpty_installer            DEBUG    util, packaging, matplotlib
+10/05/2022 21:16:50 setup            _pywinpty_installer            DEBUG    Successfully installed contourpy-1.0.5 cycler-0.11.0 fonttools-4.37.4 kiwisolver-1.4.4 matplotlib-3.
+10/05/2022 21:16:50 setup            _pywinpty_installer            DEBUG    6.0 packaging-21.3 pyparsing-3.0.9 python-dateutil-2.8.2 six-1.16.0
+10/05/2022 21:16:52 setup            _pywinpty_installer            DEBUG    Package: matplotlib>=3.5.1, returncode: 0
+10/05/2022 21:16:52 setup            _pywinpty_installer            INFO     Installing imageio>=2.19.3
+10/05/2022 21:16:52 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'imageio>=2.19.3'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir imageio>=2.19.3'
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG    Collecting imageio>=2.19.3
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG      Downloading imageio-2.22.1-py3-none-any.whl (3.4 MB)
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/3.4 MB ? eta -:--:--
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 0.1/3.4 MB 3.2 MB/s eta 0:00:02
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG         ---- ----------------------------------- 0.4/3.4 MB 4.6 MB/s eta 0:00:01
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG         --------------- ------------------------ 1.3/3.4 MB 9.2 MB/s eta 0:00:01
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 3.4/3.4 MB 16.5 MB/s eta 0:00:00
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: pillow>=8.3.2 in c:\users\37060\documents\github\magistras\deepfake-p
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG    layground\venv\lib\site-packages (from imageio>=2.19.3) (9.2.0)
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: numpy in c:\users\37060\documents\github\magistras\deepfake-playgroun
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG    d\venv\lib\site-packages (from imageio>=2.19.3) (1.23.3)
+10/05/2022 21:16:53 setup            _pywinpty_installer            DEBUG    Installing collected packages: imageio
+10/05/2022 21:16:54 setup            _pywinpty_installer            DEBUG    Successfully installed imageio-2.22.1
+10/05/2022 21:16:56 setup            _pywinpty_installer            DEBUG    Package: imageio>=2.19.3, returncode: 0
+10/05/2022 21:16:56 setup            _pywinpty_installer            INFO     Installing imageio-ffmpeg>=0.4.7
+10/05/2022 21:16:56 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'imageio-ffmpeg>=0.4.7'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir imageio-ffmpeg>=0.4.7'
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG    Collecting imageio-ffmpeg>=0.4.7
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG      Downloading imageio_ffmpeg-0.4.7-py3-none-win_amd64.whl (22.6 MB)
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/22.6 MB ? eta -:--:--
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.1/22.6 MB 2.6 MB/s eta 0:00:09
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG          --------------------------------------- 0.3/22.6 MB 3.3 MB/s eta 0:00:07
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 1.0/22.6 MB 6.9 MB/s eta 0:00:04
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         --- ------------------------------------ 2.0/22.6 MB 10.8 MB/s eta 0:00:02
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         ------- -------------------------------- 4.4/22.6 MB 18.7 MB/s eta 0:00:01
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         ------------ --------------------------- 7.2/22.6 MB 24.1 MB/s eta 0:00:01
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         ----------------- ---------------------- 9.7/22.6 MB 29.4 MB/s eta 0:00:01
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         --------------------- ------------------ 12.3/22.6 MB 54.7 MB/s eta 0:00:01
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         -------------------------- ------------- 15.0/22.6 MB 65.6 MB/s eta 0:00:01
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         ------------------------------- -------- 17.7/22.6 MB 65.6 MB/s eta 0:00:01
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         ------------------------------------ --- 20.5/22.6 MB 54.4 MB/s eta 0:00:01
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 22.6/22.6 MB 59.5 MB/s eta 0:00:00
+10/05/2022 21:16:57 setup            _pywinpty_installer            DEBUG    Installing collected packages: imageio-ffmpeg
+10/05/2022 21:16:58 setup            _pywinpty_installer            DEBUG    Successfully installed imageio-ffmpeg-0.4.7
+10/05/2022 21:16:59 setup            _pywinpty_installer            DEBUG    Package: imageio-ffmpeg>=0.4.7, returncode: 0
+10/05/2022 21:16:59 setup            _pywinpty_installer            INFO     Installing ffmpy>=0.3.0
+10/05/2022 21:16:59 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'ffmpy>=0.3.0'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir ffmpy>=0.3.0'
+10/05/2022 21:17:00 setup            _pywinpty_installer            DEBUG    Collecting ffmpy>=0.3.0
+10/05/2022 21:17:00 setup            _pywinpty_installer            DEBUG      Downloading ffmpy-0.3.0.tar.gz (4.8 kB)
+10/05/2022 21:17:01 setup            _pywinpty_installer            DEBUG      Preparing metadata (setup.py) ... -
+10/05/2022 21:17:02 setup            _pywinpty_installer            DEBUG      Preparing metadata (setup.py) ... \
+10/05/2022 21:17:02 setup            _pywinpty_installer            DEBUG      Preparing metadata (setup.py) ... |
+10/05/2022 21:17:02 setup            _pywinpty_installer            DEBUG      Preparing metadata (setup.py) ... /
+10/05/2022 21:17:02 setup            _pywinpty_installer            DEBUG      Preparing metadata (setup.py) ... done
+10/05/2022 21:17:02 setup            _pywinpty_installer            DEBUG    Building wheels for collected packages: ffmpy
+10/05/2022 21:17:03 setup            _pywinpty_installer            DEBUG      Building wheel for ffmpy (setup.py) ... -
+10/05/2022 21:17:03 setup            _pywinpty_installer            DEBUG      Building wheel for ffmpy (setup.py) ... \
+10/05/2022 21:17:03 setup            _pywinpty_installer            DEBUG      Building wheel for ffmpy (setup.py) ... |
+10/05/2022 21:17:04 setup            _pywinpty_installer            DEBUG      Building wheel for ffmpy (setup.py) ... /
+10/05/2022 21:17:04 setup            _pywinpty_installer            DEBUG      Building wheel for ffmpy (setup.py) ... -
+10/05/2022 21:17:04 setup            _pywinpty_installer            DEBUG      Building wheel for ffmpy (setup.py) ... \
+10/05/2022 21:17:04 setup            _pywinpty_installer            DEBUG      Building wheel for ffmpy (setup.py) ... |
+10/05/2022 21:17:04 setup            _pywinpty_installer            DEBUG      Building wheel for ffmpy (setup.py) ... done
+10/05/2022 21:17:04 setup            _pywinpty_installer            DEBUG      Created wheel for ffmpy: filename=ffmpy-0.3.0-py3-none-any.whl size=4712 sha256=60fe32fefe8b3c6c5b
+10/05/2022 21:17:04 setup            _pywinpty_installer            DEBUG    0420ac5728d2411532ae86e7c7ebb7a6e42ab0b161f817
+10/05/2022 21:17:04 setup            _pywinpty_installer            DEBUG      Stored in directory: C:\Users\37060\AppData\Local\Temp\pip-ephem-wheel-cache-zr4om8cq\wheels\0c\c2
+10/05/2022 21:17:04 setup            _pywinpty_installer            DEBUG    \0e\3b9c6845c6a4e35beb90910cc70d9ac9ab5d47402bd62af0df
+10/05/2022 21:17:04 setup            _pywinpty_installer            DEBUG    Successfully built ffmpy
+10/05/2022 21:17:05 setup            _pywinpty_installer            DEBUG    Installing collected packages: ffmpy
+10/05/2022 21:17:05 setup            _pywinpty_installer            DEBUG    Successfully installed ffmpy-0.3.0
+10/05/2022 21:17:06 setup            _pywinpty_installer            DEBUG    Package: ffmpy>=0.3.0, returncode: 0
+10/05/2022 21:17:06 setup            _pywinpty_installer            INFO     Installing nvidia-ml-py>=11.515,<300
+10/05/2022 21:17:06 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'nvidia-ml-py>=11.515,<300'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir nvidia-ml-py>=11.515,<300'
+10/05/2022 21:17:07 setup            _pywinpty_installer            DEBUG    Collecting nvidia-ml-py<300,>=11.515
+10/05/2022 21:17:07 setup            _pywinpty_installer            DEBUG      Downloading nvidia_ml_py-11.515.75-py3-none-any.whl (31 kB)
+10/05/2022 21:17:07 setup            _pywinpty_installer            DEBUG    Installing collected packages: nvidia-ml-py
+10/05/2022 21:17:07 setup            _pywinpty_installer            DEBUG    Successfully installed nvidia-ml-py-11.515.75
+10/05/2022 21:17:08 setup            _pywinpty_installer            DEBUG    Package: nvidia-ml-py>=11.515,<300, returncode: 0
+10/05/2022 21:17:08 setup            _pywinpty_installer            INFO     Installing tensorflow-probability<0.17
+10/05/2022 21:17:08 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'tensorflow-probability<0.17'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir tensorflow-probability<0.17'
+10/05/2022 21:17:09 setup            _pywinpty_installer            DEBUG    Collecting tensorflow-probability<0.17
+10/05/2022 21:17:09 setup            _pywinpty_installer            DEBUG      Downloading tensorflow_probability-0.16.0-py2.py3-none-any.whl (6.3 MB)
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/6.3 MB ? eta -:--:--
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG          --------------------------------------- 0.1/6.3 MB 3.3 MB/s eta 0:00:02
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG         --- ------------------------------------ 0.5/6.3 MB 6.2 MB/s eta 0:00:01
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG         ------- -------------------------------- 1.2/6.3 MB 9.7 MB/s eta 0:00:01
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG         -------------------- ------------------- 3.2/6.3 MB 18.5 MB/s eta 0:00:01
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 6.3/6.3 MB 27.0 MB/s eta 0:00:00
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG    Collecting decorator
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG      Downloading decorator-5.1.1-py3-none-any.whl (9.1 kB)
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG    Collecting dm-tree
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG      Downloading dm_tree-0.1.7-cp310-cp310-win_amd64.whl (90 kB)
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 90.9/90.9 kB ? eta 0:00:00
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG    Collecting gast>=0.3.2
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG      Downloading gast-0.5.3-py3-none-any.whl (19 kB)
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: numpy>=1.13.3 in c:\users\37060\documents\github\magistras\deepfake-p
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG    layground\venv\lib\site-packages (from tensorflow-probability<0.17) (1.23.3)
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: six>=1.10.0 in c:\users\37060\documents\github\magistras\deepfake-pla
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG    yground\venv\lib\site-packages (from tensorflow-probability<0.17) (1.16.0)
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG    Collecting absl-py
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG      Downloading absl_py-1.2.0-py3-none-any.whl (123 kB)
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 123.4/123.4 kB ? eta 0:00:00
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG    Collecting cloudpickle>=1.3
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG      Downloading cloudpickle-2.2.0-py3-none-any.whl (25 kB)
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG    Installing collected packages: dm-tree, gast, decorator, cloudpickle, absl-py, tensorflow-probabilit
+10/05/2022 21:17:10 setup            _pywinpty_installer            DEBUG    y
+10/05/2022 21:17:41 setup            _pywinpty_installer            DEBUG    Successfully installed absl-py-1.2.0 cloudpickle-2.2.0 decorator-5.1.1 dm-tree-0.1.7 gast-0.5.3 tens
+10/05/2022 21:17:41 setup            _pywinpty_installer            DEBUG    orflow-probability-0.16.0
+10/05/2022 21:17:43 setup            _pywinpty_installer            DEBUG    Package: tensorflow-probability<0.17, returncode: 0
+10/05/2022 21:17:43 setup            _pywinpty_installer            INFO     Installing typing-extensions>=4.0.0
+10/05/2022 21:17:43 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'typing-extensions>=4.0.0'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir typing-extensions>=4.0.0'
+10/05/2022 21:17:44 setup            _pywinpty_installer            DEBUG    Collecting typing-extensions>=4.0.0
+10/05/2022 21:17:44 setup            _pywinpty_installer            DEBUG      Downloading typing_extensions-4.3.0-py3-none-any.whl (25 kB)
+10/05/2022 21:17:44 setup            _pywinpty_installer            DEBUG    Installing collected packages: typing-extensions
+10/05/2022 21:17:44 setup            _pywinpty_installer            DEBUG    Successfully installed typing-extensions-4.3.0
+10/05/2022 21:17:45 setup            _pywinpty_installer            DEBUG    Package: typing-extensions>=4.0.0, returncode: 0
+10/05/2022 21:17:45 setup            _pywinpty_installer            INFO     Installing pywin32>=228
+10/05/2022 21:17:45 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'pywin32>=228'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir pywin32>=228'
+10/05/2022 21:17:46 setup            _pywinpty_installer            DEBUG    Collecting pywin32>=228
+10/05/2022 21:17:46 setup            _pywinpty_installer            DEBUG      Downloading pywin32-304-cp310-cp310-win_amd64.whl (12.1 MB)
+10/05/2022 21:17:46 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/12.1 MB ? eta -:--:--
+10/05/2022 21:17:46 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.1/12.1 MB 3.3 MB/s eta 0:00:04
+10/05/2022 21:17:47 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 0.4/12.1 MB 4.5 MB/s eta 0:00:03
+10/05/2022 21:17:47 setup            _pywinpty_installer            DEBUG         --- ------------------------------------ 1.0/12.1 MB 8.1 MB/s eta 0:00:02
+10/05/2022 21:17:47 setup            _pywinpty_installer            DEBUG         -------- ------------------------------- 2.5/12.1 MB 14.6 MB/s eta 0:00:01
+10/05/2022 21:17:47 setup            _pywinpty_installer            DEBUG         ---------------- ----------------------- 5.1/12.1 MB 23.2 MB/s eta 0:00:01
+10/05/2022 21:17:47 setup            _pywinpty_installer            DEBUG         ------------------------- -------------- 7.8/12.1 MB 29.3 MB/s eta 0:00:01
+10/05/2022 21:17:47 setup            _pywinpty_installer            DEBUG         ---------------------------------- ----- 10.4/12.1 MB 40.9 MB/s eta 0:00:01
+10/05/2022 21:17:47 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 12.1/12.1 MB 54.7 MB/s eta 0:00:00
+10/05/2022 21:17:47 setup            _pywinpty_installer            DEBUG    Installing collected packages: pywin32
+10/05/2022 21:17:56 setup            _pywinpty_installer            DEBUG    Successfully installed pywin32-304
+10/05/2022 21:17:57 setup            _pywinpty_installer            DEBUG    Package: pywin32>=228, returncode: 0
+10/05/2022 21:17:57 setup            _pywinpty_installer            INFO     Installing tensorflow>=2.7.0,<2.10.0
+10/05/2022 21:17:57 setup            _pywinpty_installer            DEBUG    argv: ['C:\\Users\\37060\\Documents\\GitHub\\magistras\\deepfake-playground\\venv\\Scripts\\python.exe', '-u', '-m', 'pip', 'install', '--no-cache-dir', 'tensorflow>=2.7.0,<2.10.0'], cmd: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe', cmdline: 'C:\Users\37060\Documents\GitHub\magistras\deepfake-playground\venv\Scripts\python.exe -u -m pip install --no-cache-dir tensorflow>=2.7.0,<2.10.0'
+10/05/2022 21:17:58 setup            _pywinpty_installer            DEBUG    Collecting tensorflow<2.10.0,>=2.7.0
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG      Downloading tensorflow-2.9.2-cp310-cp310-win_amd64.whl (444.2 MB)
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/444.2 MB ? eta -:--:--
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.1/444.2 MB 4.1 MB/s eta 0:01:49
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.2/444.2 MB 3.6 MB/s eta 0:02:03
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.7/444.2 MB 6.6 MB/s eta 0:01:08
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 2.0/444.2 MB 12.7 MB/s eta 0:00:35
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 3.9/444.2 MB 17.8 MB/s eta 0:00:25
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG          --------------------------------------- 6.4/444.2 MB 25.5 MB/s eta 0:00:18
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG          --------------------------------------- 8.9/444.2 MB 30.1 MB/s eta 0:00:15
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 12.0/444.2 MB 50.4 MB/s eta 0:00:09
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 14.7/444.2 MB 59.5 MB/s eta 0:00:08
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 17.4/444.2 MB 59.5 MB/s eta 0:00:08
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 19.1/444.2 MB 54.7 MB/s eta 0:00:08
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         - -------------------------------------- 19.9/444.2 MB 43.5 MB/s eta 0:00:10
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         -- ------------------------------------- 24.4/444.2 MB 40.9 MB/s eta 0:00:11
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         -- ------------------------------------- 27.0/444.2 MB 40.9 MB/s eta 0:00:11
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         -- ------------------------------------- 29.7/444.2 MB 54.7 MB/s eta 0:00:08
+10/05/2022 21:17:59 setup            _pywinpty_installer            DEBUG         -- ------------------------------------- 32.4/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         --- ------------------------------------ 35.1/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         --- ------------------------------------ 37.8/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         --- ------------------------------------ 40.5/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         --- ------------------------------------ 42.7/444.2 MB 54.7 MB/s eta 0:00:08
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ---- ----------------------------------- 45.6/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ---- ----------------------------------- 48.2/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ---- ----------------------------------- 50.9/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ---- ----------------------------------- 53.6/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ----- ---------------------------------- 56.4/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ----- ---------------------------------- 59.1/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ----- ---------------------------------- 62.0/444.2 MB 65.2 MB/s eta 0:00:06
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ----- ---------------------------------- 64.7/444.2 MB 54.7 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ------ --------------------------------- 67.3/444.2 MB 54.4 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ------ --------------------------------- 70.0/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ------ --------------------------------- 72.7/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ------ --------------------------------- 75.5/444.2 MB 59.5 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ------- -------------------------------- 78.5/444.2 MB 65.6 MB/s eta 0:00:06
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ------- -------------------------------- 81.3/444.2 MB 65.2 MB/s eta 0:00:06
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ------- -------------------------------- 84.0/444.2 MB 65.2 MB/s eta 0:00:06
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         ------- -------------------------------- 86.7/444.2 MB 65.6 MB/s eta 0:00:06
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         -------- ------------------------------- 89.5/444.2 MB 54.4 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         -------- ------------------------------- 92.3/444.2 MB 50.4 MB/s eta 0:00:07
+10/05/2022 21:18:00 setup            _pywinpty_installer            DEBUG         -------- ------------------------------- 94.8/444.2 MB 50.4 MB/s eta 0:00:07
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         -------- ------------------------------- 97.1/444.2 MB 54.4 MB/s eta 0:00:07
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         -------- ------------------------------- 99.8/444.2 MB 59.8 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         --------- ------------------------------ 102.4/444.2 MB 59.5 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         --------- ------------------------------ 105.0/444.2 MB 59.5 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         --------- ------------------------------ 107.7/444.2 MB 59.8 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         --------- ------------------------------ 110.4/444.2 MB 59.5 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ---------- ----------------------------- 113.1/444.2 MB 59.5 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ---------- ----------------------------- 115.3/444.2 MB 59.5 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ---------- ----------------------------- 118.0/444.2 MB 65.6 MB/s eta 0:00:05
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ---------- ----------------------------- 120.6/444.2 MB 59.5 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ----------- ---------------------------- 123.4/444.2 MB 65.6 MB/s eta 0:00:05
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ----------- ---------------------------- 126.0/444.2 MB 54.4 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ----------- ---------------------------- 128.7/444.2 MB 59.5 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ----------- ---------------------------- 131.5/444.2 MB 59.5 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ------------ --------------------------- 134.7/444.2 MB 59.5 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ------------ --------------------------- 137.4/444.2 MB 59.5 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ------------ --------------------------- 140.0/444.2 MB 54.4 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ------------ --------------------------- 142.7/444.2 MB 54.7 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ------------- -------------------------- 145.5/444.2 MB 59.5 MB/s eta 0:00:06
+10/05/2022 21:18:01 setup            _pywinpty_installer            DEBUG         ------------- -------------------------- 148.2/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ------------- -------------------------- 150.8/444.2 MB 59.8 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ------------- -------------------------- 154.0/444.2 MB 65.6 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         -------------- ------------------------- 156.6/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         -------------- ------------------------- 159.3/444.2 MB 65.6 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         -------------- ------------------------- 162.0/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         -------------- ------------------------- 164.7/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         --------------- ------------------------ 167.4/444.2 MB 54.7 MB/s eta 0:00:06
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         --------------- ------------------------ 170.5/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         --------------- ------------------------ 173.2/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         --------------- ------------------------ 175.9/444.2 MB 54.4 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ---------------- ----------------------- 178.5/444.2 MB 54.4 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ---------------- ----------------------- 181.2/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ---------------- ----------------------- 183.8/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ---------------- ----------------------- 186.6/444.2 MB 54.7 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ----------------- ---------------------- 189.5/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ----------------- ---------------------- 192.2/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ----------------- ---------------------- 194.9/444.2 MB 54.4 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ----------------- ---------------------- 197.6/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ------------------ --------------------- 200.4/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ------------------ --------------------- 203.1/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:02 setup            _pywinpty_installer            DEBUG         ------------------ --------------------- 205.8/444.2 MB 59.5 MB/s eta 0:00:05
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ------------------ --------------------- 208.0/444.2 MB 54.7 MB/s eta 0:00:05
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ------------------ --------------------- 210.6/444.2 MB 54.4 MB/s eta 0:00:05
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ------------------- -------------------- 213.3/444.2 MB 54.7 MB/s eta 0:00:05
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ------------------- -------------------- 215.9/444.2 MB 54.7 MB/s eta 0:00:05
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ------------------- -------------------- 218.0/444.2 MB 50.1 MB/s eta 0:00:05
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ------------------- -------------------- 221.4/444.2 MB 59.5 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         -------------------- ------------------- 224.1/444.2 MB 59.5 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         -------------------- ------------------- 226.3/444.2 MB 59.5 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         -------------------- ------------------- 229.0/444.2 MB 65.6 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         -------------------- ------------------- 231.6/444.2 MB 59.5 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         --------------------- ------------------ 234.2/444.2 MB 59.5 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         --------------------- ------------------ 236.9/444.2 MB 59.8 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         --------------------- ------------------ 239.7/444.2 MB 54.4 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         --------------------- ------------------ 242.2/444.2 MB 59.5 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ---------------------- ----------------- 245.2/444.2 MB 54.4 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ---------------------- ----------------- 247.8/444.2 MB 50.4 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ---------------------- ----------------- 250.5/444.2 MB 54.7 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ---------------------- ----------------- 253.1/444.2 MB 54.4 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ----------------------- ---------------- 255.7/444.2 MB 59.5 MB/s eta 0:00:04
+10/05/2022 21:18:03 setup            _pywinpty_installer            DEBUG         ----------------------- ---------------- 258.4/444.2 MB 59.5 MB/s eta 0:00:04
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ----------------------- ---------------- 261.5/444.2 MB 59.5 MB/s eta 0:00:04
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ----------------------- ---------------- 264.2/444.2 MB 59.5 MB/s eta 0:00:04
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ------------------------ --------------- 266.8/444.2 MB 59.5 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ------------------------ --------------- 269.5/444.2 MB 59.5 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ------------------------ --------------- 272.2/444.2 MB 59.8 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ------------------------ --------------- 274.8/444.2 MB 59.5 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ------------------------ --------------- 277.4/444.2 MB 59.5 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ------------------------- -------------- 280.4/444.2 MB 54.4 MB/s eta 0:00:04
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ------------------------- -------------- 283.1/444.2 MB 54.4 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ------------------------- -------------- 285.8/444.2 MB 50.4 MB/s eta 0:00:04
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ------------------------- -------------- 288.5/444.2 MB 59.5 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         -------------------------- ------------- 291.3/444.2 MB 54.4 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         -------------------------- ------------- 293.9/444.2 MB 59.5 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         -------------------------- ------------- 296.4/444.2 MB 54.4 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         -------------------------- ------------- 299.4/444.2 MB 59.5 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         --------------------------- ------------ 302.0/444.2 MB 59.5 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         --------------------------- ------------ 304.7/444.2 MB 59.5 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         --------------------------- ------------ 307.4/444.2 MB 59.8 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         --------------------------- ------------ 310.0/444.2 MB 59.5 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ---------------------------- ----------- 312.6/444.2 MB 59.5 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ---------------------------- ----------- 315.6/444.2 MB 54.4 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ---------------------------- ----------- 318.0/444.2 MB 54.4 MB/s eta 0:00:03
+10/05/2022 21:18:04 setup            _pywinpty_installer            DEBUG         ---------------------------- ----------- 320.6/444.2 MB 54.7 MB/s eta 0:00:03
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ----------------------------- ---------- 323.3/444.2 MB 54.7 MB/s eta 0:00:03
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ----------------------------- ---------- 325.9/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ----------------------------- ---------- 328.6/444.2 MB 54.4 MB/s eta 0:00:03
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ----------------------------- ---------- 331.2/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ------------------------------ --------- 334.3/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ------------------------------ --------- 336.8/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ------------------------------ --------- 339.5/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ------------------------------ --------- 342.0/444.2 MB 54.7 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ------------------------------- -------- 344.7/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ------------------------------- -------- 347.4/444.2 MB 54.4 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ------------------------------- -------- 350.1/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         ------------------------------- -------- 352.9/444.2 MB 54.4 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         -------------------------------- ------- 355.7/444.2 MB 54.7 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         -------------------------------- ------- 358.4/444.2 MB 54.7 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         -------------------------------- ------- 361.1/444.2 MB 54.4 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         -------------------------------- ------- 363.7/444.2 MB 54.4 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         -------------------------------- ------- 366.4/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         --------------------------------- ------ 369.4/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         --------------------------------- ------ 372.1/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         --------------------------------- ------ 374.8/444.2 MB 65.2 MB/s eta 0:00:02
+10/05/2022 21:18:05 setup            _pywinpty_installer            DEBUG         --------------------------------- ------ 377.5/444.2 MB 54.7 MB/s eta 0:00:02
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ---------------------------------- ----- 380.3/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ---------------------------------- ----- 383.0/444.2 MB 59.5 MB/s eta 0:00:02
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ---------------------------------- ----- 385.6/444.2 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ----------------------------------- ---- 388.8/444.2 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ----------------------------------- ---- 391.5/444.2 MB 54.7 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ----------------------------------- ---- 394.0/444.2 MB 54.7 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ----------------------------------- ---- 396.6/444.2 MB 54.7 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ----------------------------------- ---- 399.3/444.2 MB 54.4 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ------------------------------------ --- 402.0/444.2 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ------------------------------------ --- 404.8/444.2 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ------------------------------------ --- 407.7/444.2 MB 54.7 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ------------------------------------ --- 410.4/444.2 MB 54.7 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ------------------------------------- -- 413.0/444.2 MB 59.8 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ------------------------------------- -- 415.7/444.2 MB 54.4 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ------------------------------------- -- 418.4/444.2 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         ------------------------------------- -- 421.0/444.2 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         -------------------------------------- - 424.1/444.2 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         -------------------------------------- - 426.7/444.2 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         -------------------------------------- - 429.3/444.2 MB 54.7 MB/s eta 0:00:01
+10/05/2022 21:18:06 setup            _pywinpty_installer            DEBUG         -------------------------------------- - 432.1/444.2 MB 54.7 MB/s eta 0:00:01
+10/05/2022 21:18:07 setup            _pywinpty_installer            DEBUG         ---------------------------------------  434.8/444.2 MB 54.7 MB/s eta 0:00:01
+10/05/2022 21:18:07 setup            _pywinpty_installer            DEBUG         ---------------------------------------  437.4/444.2 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:18:07 setup            _pywinpty_installer            DEBUG         ---------------------------------------  440.2/444.2 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:18:07 setup            _pywinpty_installer            DEBUG         ---------------------------------------  442.2/444.2 MB 50.4 MB/s eta 0:00:01
+10/05/2022 21:18:07 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 444.2/444.2 MB 54.4 MB/s eta 0:00:00
+10/05/2022 21:18:07 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: typing-extensions>=3.6.6 in c:\users\37060\documents\github\magistras
+10/05/2022 21:18:07 setup            _pywinpty_installer            DEBUG    \deepfake-playground\venv\lib\site-packages (from tensorflow<2.10.0,>=2.7.0) (4.3.0)
+10/05/2022 21:18:07 setup            _pywinpty_installer            DEBUG    Collecting wrapt>=1.11.0
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG      Downloading wrapt-1.14.1-cp310-cp310-win_amd64.whl (35 kB)
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG    Collecting h5py>=2.9.0
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG      Downloading h5py-3.7.0-cp310-cp310-win_amd64.whl (2.6 MB)
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/2.6 MB ? eta -:--:--
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 2.6/2.6 MB 55.5 MB/s eta 0:00:00
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG    Collecting tensorboard<2.10,>=2.9
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG      Downloading tensorboard-2.9.1-py3-none-any.whl (5.8 MB)
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/5.8 MB ? eta -:--:--
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG         ------------------ --------------------- 2.7/5.8 MB 59.0 MB/s eta 0:00:01
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 5.8/5.8 MB 62.2 MB/s eta 0:00:00
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG    Collecting astunparse>=1.6.0
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG      Downloading astunparse-1.6.3-py2.py3-none-any.whl (12 kB)
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG    Collecting tensorflow-estimator<2.10.0,>=2.9.0rc0
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG      Downloading tensorflow_estimator-2.9.0-py2.py3-none-any.whl (438 kB)
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 438.7/438.7 kB ? eta 0:00:00
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: absl-py>=1.0.0 in c:\users\37060\documents\github\magistras\deepfake-
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG    playground\venv\lib\site-packages (from tensorflow<2.10.0,>=2.7.0) (1.2.0)
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG    Collecting opt-einsum>=2.3.2
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG      Downloading opt_einsum-3.3.0-py3-none-any.whl (65 kB)
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 65.5/65.5 kB ? eta 0:00:00
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: setuptools in c:\users\37060\documents\github\magistras\deepfake-play
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG    ground\venv\lib\site-packages (from tensorflow<2.10.0,>=2.7.0) (62.1.0)
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG    Collecting gast<=0.4.0,>=0.2.1
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG      Downloading gast-0.4.0-py3-none-any.whl (9.8 kB)
+10/05/2022 21:18:08 setup            _pywinpty_installer            DEBUG    Collecting libclang>=13.0.0
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG      Downloading libclang-14.0.6-py2.py3-none-win_amd64.whl (14.2 MB)
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/14.2 MB ? eta -:--:--
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG         --------- ------------------------------ 3.5/14.2 MB 55.8 MB/s eta 0:00:01
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG         ----------------- ---------------------- 6.1/14.2 MB 65.3 MB/s eta 0:00:01
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG         ------------------------ --------------- 8.8/14.2 MB 56.4 MB/s eta 0:00:01
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG         -------------------------------- ------- 11.4/14.2 MB 59.5 MB/s eta 0:00:01
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 14.2/14.2 MB 54.4 MB/s eta 0:00:00
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG    Collecting grpcio<2.0,>=1.24.3
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG      Downloading grpcio-1.49.1-cp310-cp310-win_amd64.whl (3.6 MB)
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/3.6 MB ? eta -:--:--
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG         ----------------------------- ---------- 2.7/3.6 MB 86.5 MB/s eta 0:00:01
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 3.6/3.6 MB 58.2 MB/s eta 0:00:00
+10/05/2022 21:18:09 setup            _pywinpty_installer            DEBUG    Collecting termcolor>=1.1.0
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG      Downloading termcolor-2.0.1-py3-none-any.whl (5.4 kB)
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: packaging in c:\users\37060\documents\github\magistras\deepfake-playg
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    round\venv\lib\site-packages (from tensorflow<2.10.0,>=2.7.0) (21.3)
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    Collecting keras<2.10.0,>=2.9.0rc0
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG      Downloading keras-2.9.0-py2.py3-none-any.whl (1.6 MB)
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/1.6 MB ? eta -:--:--
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 1.6/1.6 MB 101.2 MB/s eta 0:00:00
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    Collecting tensorflow-io-gcs-filesystem>=0.23.1
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG      Downloading tensorflow_io_gcs_filesystem-0.27.0-cp310-cp310-win_amd64.whl (1.5 MB)
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 1.5/1.5 MB 98.3 MB/s eta 0:00:00
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: numpy>=1.20 in c:\users\37060\documents\github\magistras\deepfake-pla
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    yground\venv\lib\site-packages (from tensorflow<2.10.0,>=2.7.0) (1.23.3)
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: six>=1.12.0 in c:\users\37060\documents\github\magistras\deepfake-pla
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    yground\venv\lib\site-packages (from tensorflow<2.10.0,>=2.7.0) (1.16.0)
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    Collecting flatbuffers<2,>=1.12
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG      Downloading flatbuffers-1.12-py2.py3-none-any.whl (15 kB)
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    Collecting google-pasta>=0.1.1
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG      Downloading google_pasta-0.2.0-py3-none-any.whl (57 kB)
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 57.5/57.5 kB ? eta 0:00:00
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    Collecting protobuf<3.20,>=3.9.2
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG      Downloading protobuf-3.19.6-cp310-cp310-win_amd64.whl (895 kB)
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/895.7 kB
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 895.7/895.7 kB ? eta 0:00:00
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    Collecting keras-preprocessing>=1.1.1
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG      Downloading Keras_Preprocessing-1.1.2-py2.py3-none-any.whl (42 kB)
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 42.6/42.6 kB ? eta 0:00:00
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: wheel<1.0,>=0.23.0 in c:\users\37060\documents\github\magistras\deepf
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    ake-playground\venv\lib\site-packages (from astunparse>=1.6.0->tensorflow<2.10.0,>=2.7.0) (0.37.1)
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG    Collecting google-auth-oauthlib<0.5,>=0.4.1
+10/05/2022 21:18:10 setup            _pywinpty_installer            DEBUG      Downloading google_auth_oauthlib-0.4.6-py2.py3-none-any.whl (18 kB)
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG    Collecting werkzeug>=1.0.1
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG      Downloading Werkzeug-2.2.2-py3-none-any.whl (232 kB)
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 232.7/232.7 kB ? eta 0:00:00
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG    Collecting markdown>=2.6.8
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG      Downloading Markdown-3.4.1-py3-none-any.whl (93 kB)
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/93.3 kB ? eta -:--:--
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 93.3/93.3 kB 5.2 MB/s eta 0:00:00
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG    Collecting google-auth<3,>=1.6.3
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG      Downloading google_auth-2.12.0-py2.py3-none-any.whl (169 kB)
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 169.8/169.8 kB ? eta 0:00:00
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG    Collecting requests<3,>=2.21.0
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG      Downloading requests-2.28.1-py3-none-any.whl (62 kB)
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 62.8/62.8 kB ? eta 0:00:00
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG    Collecting tensorboard-plugin-wit>=1.6.0
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG      Downloading tensorboard_plugin_wit-1.8.1-py3-none-any.whl (781 kB)
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 781.3/781.3 kB ? eta 0:00:00
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG    Collecting tensorboard-data-server<0.7.0,>=0.6.0
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG      Downloading tensorboard_data_server-0.6.1-py3-none-any.whl (2.4 kB)
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG    Requirement already satisfied: pyparsing!=3.0.5,>=2.0.2 in c:\users\37060\documents\github\magistras
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG    \deepfake-playground\venv\lib\site-packages (from packaging->tensorflow<2.10.0,>=2.7.0) (3.0.9)
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG    Collecting pyasn1-modules>=0.2.1
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG      Downloading pyasn1_modules-0.2.8-py2.py3-none-any.whl (155 kB)
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 155.3/155.3 kB ? eta 0:00:00
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG    Collecting rsa<5,>=3.1.4
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG      Downloading rsa-4.9-py3-none-any.whl (34 kB)
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG    Collecting cachetools<6.0,>=2.0.0
+10/05/2022 21:18:11 setup            _pywinpty_installer            DEBUG      Downloading cachetools-5.2.0-py3-none-any.whl (9.3 kB)
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG    Collecting requests-oauthlib>=0.7.0
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG      Downloading requests_oauthlib-1.3.1-py2.py3-none-any.whl (23 kB)
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG    Collecting charset-normalizer<3,>=2
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG      Downloading charset_normalizer-2.1.1-py3-none-any.whl (39 kB)
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG    Collecting idna<4,>=2.5
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG      Downloading idna-3.4-py3-none-any.whl (61 kB)
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 0.0/61.5 kB
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 61.5/61.5 kB ? eta 0:00:00
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG    Collecting urllib3<1.27,>=1.21.1
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG      Downloading urllib3-1.26.12-py2.py3-none-any.whl (140 kB)
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG         ----------------------------------------
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 140.4/140.4 kB ? eta 0:00:00
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG    Collecting certifi>=2017.4.17
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG      Downloading certifi-2022.9.24-py3-none-any.whl (161 kB)
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 161.1/161.1 kB ? eta 0:00:00
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG    Collecting MarkupSafe>=2.1.1
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG      Downloading MarkupSafe-2.1.1-cp310-cp310-win_amd64.whl (17 kB)
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG    Collecting pyasn1<0.5.0,>=0.4.6
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG      Downloading pyasn1-0.4.8-py2.py3-none-any.whl (77 kB)
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 77.1/77.1 kB ? eta 0:00:00
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG    Collecting oauthlib>=3.0.0
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG      Downloading oauthlib-3.2.1-py3-none-any.whl (151 kB)
+10/05/2022 21:18:12 setup            _pywinpty_installer            DEBUG         ---------------------------------------- 151.7/151.7 kB ? eta 0:00:00
+10/05/2022 21:18:13 setup            _pywinpty_installer            DEBUG    Installing collected packages: tensorboard-plugin-wit, pyasn1, libclang, keras, flatbuffers, wrapt,
+10/05/2022 21:18:13 setup            _pywinpty_installer            DEBUG    urllib3, termcolor, tensorflow-io-gcs-filesystem, tensorflow-estimator, tensorboard-data-server, rsa
+10/05/2022 21:18:13 setup            _pywinpty_installer            DEBUG    , pyasn1-modules, protobuf, opt-einsum, oauthlib, MarkupSafe, markdown, keras-preprocessing, idna, h
+10/05/2022 21:18:13 setup            _pywinpty_installer            DEBUG    5py, grpcio, google-pasta, gast, charset-normalizer, certifi, cachetools, astunparse, werkzeug, requ
+10/05/2022 21:18:13 setup            _pywinpty_installer            DEBUG    ests, google-auth, requests-oauthlib, google-auth-oauthlib, tensorboard, tensorflow
+10/05/2022 21:18:35 setup            _pywinpty_installer            DEBUG      Attempting uninstall: gast
+10/05/2022 21:18:35 setup            _pywinpty_installer            DEBUG        Found existing installation: gast 0.5.3
+10/05/2022 21:18:35 setup            _pywinpty_installer            DEBUG        Uninstalling gast-0.5.3:
+10/05/2022 21:18:35 setup            _pywinpty_installer            DEBUG          Successfully uninstalled gast-0.5.3
+10/05/2022 21:20:26 setup            _pywinpty_installer            DEBUG    Successfully installed MarkupSafe-2.1.1 astunparse-1.6.3 cachetools-5.2.0 certifi-2022.9.24 charset-
+10/05/2022 21:20:26 setup            _pywinpty_installer            DEBUG    normalizer-2.1.1 flatbuffers-1.12 gast-0.4.0 google-auth-2.12.0 google-auth-oauthlib-0.4.6 google-pa
+10/05/2022 21:20:26 setup            _pywinpty_installer            DEBUG    sta-0.2.0 grpcio-1.49.1 h5py-3.7.0 idna-3.4 keras-2.9.0 keras-preprocessing-1.1.2 libclang-14.0.6 ma
+10/05/2022 21:20:26 setup            _pywinpty_installer            DEBUG    rkdown-3.4.1 oauthlib-3.2.1 opt-einsum-3.3.0 protobuf-3.19.6 pyasn1-0.4.8 pyasn1-modules-0.2.8 reque
+10/05/2022 21:20:26 setup            _pywinpty_installer            DEBUG    sts-2.28.1 requests-oauthlib-1.3.1 rsa-4.9 tensorboard-2.9.1 tensorboard-data-server-0.6.1 tensorboa
+10/05/2022 21:20:26 setup            _pywinpty_installer            DEBUG    rd-plugin-wit-1.8.1 tensorflow-2.9.2 tensorflow-estimator-2.9.0 tensorflow-io-gcs-filesystem-0.27.0
+10/05/2022 21:20:26 setup            _pywinpty_installer            DEBUG    termcolor-2.0.1 urllib3-1.26.12 werkzeug-2.2.2 wrapt-1.14.1
+10/05/2022 21:20:27 setup            _pywinpty_installer            DEBUG    Package: tensorflow>=2.7.0,<2.10.0, returncode: 0
+10/05/2022 21:20:27 setup            __init__                       INFO     All python3 dependencies are met.\r\nYou are good to go.\r\n\r\nEnter:  'python faceswap.py -h' to see the options\r\n        'python faceswap.py gui' to launch the GUI

@@ -199,10 +199,10 @@ class Environment():
         if self.updater:
             return
 
-        if not ((3, 7) <= sys.version_info < (3, 10) and self.py_version[1] == "64bit"):
-            logger.error("Please run this script with Python version 3.7 to 3.9 64bit and try "
-                         "again.")
-            sys.exit(1)
+        # if not ((3, 7) <= sys.version_info < (3, 10) and self.py_version[1] == "64bit"):
+        #     logger.error("Please run this script with Python version 3.7 to 3.9 64bit and try "
+        #                  "again.")
+        #     sys.exit(1)
         if self.enable_amd and sys.version_info >= (3, 9):
             logger.error("The AMD version of Faceswap cannot be installed on versions of Python "
                          "higher than 3.8")

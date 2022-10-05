@@ -3,15 +3,9 @@
 
 import logging
 import os
-import sys
 import cv2
-import numpy as np
-from tqdm import tqdm
-from dlib import get_frontal_face_detector
 
 from convert.align import  DetectedFace
-from plugins.extract.pipeline import Extractor
-
 
 logger = logging.getLogger(__name__)  # pylint:disable=invalid-name
 
@@ -70,54 +64,9 @@ class ImagesLoader():
         self._alignments = alignments
         self._count = 1
         self._file_list = []
-        self._get_and_check_filelist()
+        self._get_and_check_filelist() #TODO only for training and extracting
 
         self._read_images()
-
-    @property
-    def file_list(self):
-        return self._file_list
-
-    def _load_extractor(self):
-        """ Load the CV2-DNN Face Extractor Chain.
-
-        For On-The-Fly conversion we use a CPU based extractor to avoid stacking the GPU.
-        Results are poor.
-
-        Returns
-        -------
-        :class:`plugins.extract.Pipeline.Extractor`
-            The face extraction chain to be used for on-the-fly conversion
-        """
-        if not self._alignments.have_alignments_file and not self._args.on_the_fly:
-            logger.error("No alignments file found. Please provide an alignments file for your "
-                         "destination video (recommended) or enable on-the-fly conversion (not "
-                         "recommended).")
-            sys.exit(1)
-        if self._alignments.have_alignments_file:
-            logger.debug("Alignments file found: '%s'", self._alignments.file)
-            # if self._args.on_the_fly:
-            #     logger.info("On-The-Fly conversion selected, but an alignments file was found. "
-            #                 "Using pre-existing alignments file: '%s'", self._alignments.file)
-            # else:
-            #     logger.debug("Alignments file found: '%s'", self._alignments.file)
-            return None
-
-        logger.debug("Loading extractor")
-        logger.warning("On-The-Fly conversion selected. This will use the inferior cv2-dnn for "
-                       "extraction and will produce poor results.")
-        logger.warning("It is recommended to generate an alignments file for your destination "
-                       "video with Extract first for superior results.")
-        extractor = Extractor(detector="cv2-dnn",
-                              aligner="cv2-dnn",
-                              masker=self._args.mask_type,
-                              multiprocess=True,
-                              rotate_images=None,
-                              min_size=20)
-        extractor.launch()
-        logger.debug("Loaded extractor")
-        return extractor
-        
     def _get_and_check_filelist(self):
         "Checks directory if exsits and creates new if not"
 
@@ -132,7 +81,7 @@ class ImagesLoader():
             ".bmp", ".jpeg", ".jpg", ".png", ".tif", ".tiff"]
         dir_scanned = sorted(os.scandir(self._location), key=lambda x: x.name)
         logger.debug("Scanned Folder contains %s files", len(dir_scanned))
-        logger.info("Scanned Folder Contents: %s", dir_scanned) 
+        logger.info("Scanned Folder Contents: %s", dir_scanned)
 
         for chkfile in dir_scanned:
             if any(chkfile.name.lower().endswith(ext) for ext in image_extensions):
@@ -140,6 +89,10 @@ class ImagesLoader():
                 self._file_list.append(chkfile.path)
 
         logger.debug("Returning %s images", len(self._file_list))
+
+    @property
+    def file_list(self):
+        return self._file_list
 
     def _read_images(self):
         """ The load thread."""
@@ -150,16 +103,11 @@ class ImagesLoader():
                 logger.warning("Frame not loaded: '%s'", filename[0])
                 continue
             if not image.any() and image.ndim not in (2, 3):
-                # All black frames will return not numpy.any() so check dims too
                 logger.warning("Unable to open image. Skipping: '%s'", filename)
                 continue
 
-            detected_faces = self._get_detected_faces(filename, image)
-            item = dict(filename=filename, image=image, detected_faces=detected_faces)
+            item = self._get_detected_faces(filename, image)
             self.loaded_images.append(item)
-
-            # self.files[filename] =image
-      
 
     def _get_detected_faces(self, filename, image):
         """ Return the detected faces for the given image.
@@ -180,65 +128,19 @@ class ImagesLoader():
             List of :class:`lib.align.DetectedFace` objects
         """
         logger.info("Getting faces for: '%s'", filename)
-        # if not self._extractor:
-        detected_faces = self._alignments_faces(os.path.basename(filename), image)
-        # else:
-        #     detected_faces = self._detect_faces(filename, image)
-        logger.info("Got %s faces for: '%s'", len(detected_faces), filename)
-        return detected_faces
-
-    def _alignments_faces(self, frame_name, image):
-        """ Return detected faces from an alignments file.
-
-        Parameters
-        ----------
-        frame_name: str
-            The name of the frame to return the detected faces for
-        image: :class:`numpy.ndarray`
-            The frame that the detected faces exist in
-
-        Returns
-        -------
-        list
-            List of :class:`lib.align.DetectedFace` objects
-        """
-        if not self._check_alignments(frame_name):
-            return list()
-
-        faces = self._alignments.get_faces_in_frame(frame_name)
         detected_faces = list()
 
-        # image = cv2.imread(image_path)
-        face_detector = get_frontal_face_detector()
-        dets = face_detector(image)
-        # predictor = dlib.shape_predictor(model_path)
-
-        for rawface in faces:
-
+        if False:  # not self._alignments.frame_exists(frame_name): TODO test aligments reee
             face = DetectedFace()
-            face.from_alignment(rawface, image=image)
+            face.from_image(image)
             detected_faces.append(face)
-        return detected_faces
+        else:
+            faces = self._alignments.data.get(os.path.basename(filename), dict()).get("faces", [])
 
-    def _check_alignments(self, frame_name):
-        """ Ensure that we have alignments for the current frame.
+            for rawface in faces:
+                face = DetectedFace()
+                face.from_alignment(rawface, image=image)
+                face.mask = face.mask["extended"].stored_mask
+                detected_faces.append(face)
+        return dict(filename=filename, image=image, detected_faces=detected_faces)
 
-        If we have no alignments for this image, skip it and output a message.
-
-        Parameters
-        ----------
-        frame_name: str
-            The name of the frame to check that we have alignments for
-
-        Returns
-        -------
-        bool
-            ``True`` if we have alignments for this face, otherwise ``False``
-        """
-        have_alignments = self._alignments.frame_exists(frame_name)
-        if not have_alignments:
-            tqdm.write("No alignment found for {}, "
-                       "skipping".format(frame_name))
-        return have_alignments
-
-    
